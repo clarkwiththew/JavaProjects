@@ -1,0 +1,43 @@
+package commands;
+
+import driver.*;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ls.
+ */
+public class ls implements command {
+
+  /**
+   * Print the contents	(file or directory) of the current directory, 
+   * with a	new	line following each	of the content (file or	directory)
+   *
+   * @param fm the fileManager where the command is executed
+   * @param args The path of the file or directory 
+   * @return Contents of the directory or the contents of the file or a 
+   * 		 suitable error message
+   */
+  public String run(fileManager fm, String[] args) {
+
+    String output = "";
+    // no path is given, ls current path
+    if (args.length == 1) {
+      output += fm.getCurrent().getDirKey() + "\n";
+      output += fm.getCurrent().getFileKey();
+    }
+
+    else {
+	directory currentDir = fm.getCurrent();
+        try {
+        	currentDir = fm.pathToCurrent(currentDir, args[1]);
+			output += currentDir.getDirKey() + "\n";
+		    output += currentDir.getFileKey();
+		} catch (Exception e) {
+			return "invalid path";
+		}
+	}
+    
+    return output;
+  }
+
+}

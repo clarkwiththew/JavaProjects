@@ -1,0 +1,45 @@
+package test;
+
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+
+import data.JFileManager;
+import errorHandler.NonvalidArgumentException;
+import commands.Cp;
+
+/**
+ * 
+ * @author Ethan Anada
+ *
+ */
+
+public class CpTest {
+	
+	Cp cp = new Cp();
+	private MockFileManager MockFM;
+	
+	/**
+	   * Cp command setup
+	   * 
+	   * @param none
+	   * @return none
+	   */
+	@Before
+	public void setUp() {
+		MockFM = new MockFileManager();
+
+		    }
+
+	/**
+	   * Copy one directory
+	   * 
+	   * @param none
+	   * @return none
+	   */
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}

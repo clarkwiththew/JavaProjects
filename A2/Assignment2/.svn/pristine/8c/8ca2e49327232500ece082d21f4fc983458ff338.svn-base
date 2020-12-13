@@ -1,0 +1,19 @@
+package commands;
+
+import driver.*;
+
+public class cat implements command{
+
+	public String run(fileManager fm, String[] args){
+		String output="\n";
+		for (int i=1; i<args.length;i++) { 	
+			output += fm.getCurrent().getFile(args[i]).getFileContents();
+
+			output+="\n\n\n";
+			
+		}
+		
+		return output;
+	}
+
+}

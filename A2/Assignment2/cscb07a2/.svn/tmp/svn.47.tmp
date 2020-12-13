@@ -1,0 +1,33 @@
+package commands;
+
+import driver.*;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class exit.
+ */
+public class exit implements Command {
+
+  /**
+   * Exit the shell
+   *
+   * @param fm the fileManager where the command is executed
+   * @param args The command to exit
+   * @return Empty string, showing a successful exit
+   * @throws nonvalidArgumentException 
+   */
+  public String run(fileManager fm, String[] args) throws nonvalidArgumentException  {
+    if (Validator.checkNumArgs(1, args)) {
+      
+      System.exit(0);
+    }
+     else {
+       throw new driver.nonvalidArgumentException("error with arguments");
+     }
+
+    return "";
+  }
+
+
+}
+

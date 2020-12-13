@@ -1,0 +1,40 @@
+package test;
+
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+
+import data.JFileManager;
+import errorHandler.NonvalidArgumentException;;
+
+
+public class CatTest {
+	
+//	commands.Cat cat = new commands.Cat();
+//	JFileManager fm;
+//	
+//	@Before
+//	public void setUp() {
+//		// Access the file manager where we will call the commands
+//		fm = new JFileManager();
+//		try {
+//		      fm.("1.txt", "Test1");
+//		    } catch (NonvalidArgumentException e) {
+//		      // Auto-generated catch block
+//		      fail();
+//		    }
+//		try {
+//		      fm.("2.txt", "Test2");
+//		    } catch (NonvalidArgumentException e) {
+//		      // Auto-generated catch block
+//		      fail();
+//		    }
+	
+	
+	
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}

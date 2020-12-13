@@ -1,0 +1,31 @@
+package commands;
+
+import driver.*;
+
+
+public class cat implements command{
+
+
+	/**
+	 *  Display	the	contents of FILE1 and other	Files(i.e.	File2	….)	
+	 *  concatenated in	the	shell
+	 *
+	 *
+	 * @param fm the fileManager where the command is executed 
+	 * @param args A list of file names which will be output
+	 * @return A string with the contents of the File(s) which are concatenated
+	 * 		   in the shell
+	 */
+	public String run(fileManager fm, String[] args){
+		String output="";
+		for (int i=1; i<args.length;i++) {
+		  //need to check if its a file or not, otherwise give error
+			output += fm.getCurrent().getFile(args[i]).getFileContents();
+
+			output+="\n\n\n";
+		}
+		
+		return output;
+	}
+
+}

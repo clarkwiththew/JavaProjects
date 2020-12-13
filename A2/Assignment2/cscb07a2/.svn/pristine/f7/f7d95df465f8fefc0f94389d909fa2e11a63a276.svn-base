@@ -1,0 +1,23 @@
+package commands;
+
+import errorHandler.NonvalidArgumentException;
+import errorHandler.Validator;
+import data.*;
+
+/**
+ * The Class Echo.
+ */
+public class Echo implements Command {
+
+  /**
+   * Run.
+   *
+   * @param fm the fm
+   * @param args the args
+   * @return the string
+   * @throws NonvalidArgumentException the nonvalid argument exception
+   */
+  public String run(JFileManager fm, String[] args) throws NonvalidArgumentException {
+    return fm.redirection(fm, args);
+  }
+}

@@ -1,0 +1,67 @@
+package errorHandler;
+
+/**
+ * The Class Validator.
+ */
+public class Validator {
+
+  /**
+   * Check num args.
+   *
+   * @param argLength the arg length
+   * @param args the args
+   * @return true, if successful
+   */
+  public static boolean checkNumArgs(int argLength, String[] args) {
+    if (args.length == argLength) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Check file name.
+   *
+   * @param fileName the file name
+   * @return true, if successful
+   */
+  public static boolean checkFileName(String fileName) {
+    if (fileName.matches(".*[ /.!@#$%^&*(){}~|<>?].*")) {// be careful
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Check quote.
+   *
+   * @param args the args
+   * @return true, if successful
+   */
+  public static boolean checkQuote(String[] args) {
+    int quoteCount = 0;
+    for (int i = 1; i < args.length; i++) {
+      quoteCount += args[i].split("\"", -1).length - 1;
+
+    }
+    if (quoteCount == 2) {
+      return true;
+    }
+    return false;
+
+  }
+
+  /**
+   * Checks if is equal.
+   *
+   * @param a the a
+   * @param b the b
+   * @return true, if is equal
+   */
+  public static boolean isEqual(int a, int b) {
+    if (a == b) {
+      return true;
+    }
+    return false;
+  }
+}

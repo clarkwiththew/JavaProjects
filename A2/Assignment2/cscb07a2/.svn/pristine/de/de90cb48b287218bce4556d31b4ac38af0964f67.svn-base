@@ -1,0 +1,34 @@
+package commands;
+
+import driver.*;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class pushd.
+ */
+public class pushd implements command {
+
+  /**
+   * Saves the current working directory by pushing onto directory stack
+   * and the changes the new current working directory to DIR
+   *
+   * @param fm the fileManager where the command is executed
+   * @param args Path of directory we want to change into
+   * @return New line if no error is encountered. Error if no directory is found
+   */
+  public String run(fileManager fm, String[] args) {
+
+    fm.saveCurrentToStack();
+    String path = args[1];
+    System.out.println("given path args[1]: " + path);
+    directory dirToAdd = fm.stringPathToDirectory(path);
+
+    fm.setCurrent(dirToAdd);
+
+    // System.out.println(fm.getCurrent().containsDirectoryKey("a"));
+    return "end of pushd";
+  }
+
+
+
+}

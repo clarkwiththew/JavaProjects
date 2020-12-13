@@ -1,0 +1,238 @@
+package driver;
+
+import java.util.Stack;
+// gave error, so commented this import
+// import sun.jvm.hotspot.memory.FileMapInfo.FileMapHeader;
+
+
+public class fileManager {
+  private String fullCurrDirPath;
+  private directory root;
+  private directory current;
+  private Stack<directory> directoryStack;
+
+
+  public fileManager() {
+    root = new directory("/", null); // the parent directory of root should be null
+    current = root; // when the program first runs, current location should be root
+    directoryStack = new Stack<directory>();
+  }
+
+  public directory getCurrent() {
+    return this.current;
+  }
+
+  public void setCurrent(directory newCurrent) {
+    this.current = newCurrent;
+  }
+
+  // gets the file at a path
+  // to be fixed
+  // should return a file, but have it void for now to not give errors
+  public file getFileTestingEddie(String filePath) {
+
+    file outputFile = null;
+    directory currentDir = null;
+
+    // String[] splitPath = path.split("/");
+
+    // absolute file path case
+    if (filePath.startsWith("/")) {
+      currentDir = this.root;
+      filePath = filePath.substring(1);
+      String[] splitFilePath = filePath.split("/");
+      String fileName = splitFilePath[splitFilePath.length - 1];
+
+      for (int i = 0; i < splitFilePath.length; i++) {
+        String dirName = splitFilePath[i].toString();
+
+        // the directory which contains the file we are looking for
+        if (i == (splitFilePath.length - 2)) {
+          if (currentDir.containsFileKey(splitFilePath[i + 1])) {
+            outputFile = currentDir.getFile(fileName);
+          } else {
+            System.out.println("No such file exists");
+          }
+        } else {
+          if (currentDir.containsDirectoryKey(dirName)) {
+            currentDir = currentDir.getSubdirectory(dirName);
+          } else {
+            System.out.println("absolute path - directory not exists");
+          }
+
+        }
+
+      }
+
+    }
+
+    // relative filePath cases
+    else {
+
+      String[] splitFilePath = filePath.split("/");
+      String fileName = splitFilePath[splitFilePath.length - 1];
+
+      for (int i = 0; i < splitFilePath.length; i++) {
+
+        String dirName = splitFilePath[i].toString();
+
+        // Set up starting directory (checking the fist element of splitPath)
+        if (i == 0 && dirName.equals("..")) {
+          currentDir = this.current.getParentDir();
+        } else if (i == 0 && dirName.equals(".")) {
+          currentDir = this.current;
+        } else if (i == 0 && !dirName.equals("..") && !dirName.equals(".")) {
+          currentDir = this.current;
+        }
+
+        if (i == (splitFilePath.length - 2)) {
+          if (currentDir.containsFileKey(splitFilePath[i + 1])) {
+            outputFile = currentDir.getFile(fileName);
+          } else {
+            System.out.println("No such file exists");
+          }
+        } else {
+          if (currentDir.containsDirectoryKey(dirName)) {
+            currentDir = currentDir.getSubdirectory(dirName);
+          } else {
+            System.out.println("absolute path - directory not exists");
+          }
+
+        }
+        // check directoryMap to see if the directory from the given path exists
+        if (i != 0 && i != (splitFilePath.length - 2)) {
+          if (currentDir.containsDirectoryKey(dirName)) {
+            currentDir = currentDir.getSubdirectory(dirName);
+          } else {
+            System.out.println("directory not exists");
+          }
+        }
+      }
+
+    }
+
+    return outputFile;
+  }
+
+  public String getPath() {
+    return this.fullCurrDirPath;
+  }
+
+  public void setPath(String newPath) {
+    this.fullCurrDirPath = newPath;
+  }
+
+  public String getCurrentFullPath() {
+    String path = current.retrieveFullPath();
+    return path + '\n';
+  }
+
+  public void pushStack(directory dir) {
+    directoryStack.push(dir);
+  }
+
+  public directory popStack() {
+    directory tmp = directoryStack.pop();
+    System.out.println("Directory popped from stack is " + tmp.getDirName());
+    return tmp;
+  }
+
+  public directory pathToCurrent(directory currentdir, String path)
+      throws nonvalidArgumentException {
+    // check for absolute path
+    if (path.charAt(0) == '/') {
+      // make current path root
+      currentdir = currentToRoot(currentdir);
+      // get rid of the first"/" in the path string
+      path = path.substring(1, path.length());
+    }
+    // break down path to dirs
+    String[] pathStrings = path.split("/");
+
+    System.out.println(pathStrings[0]);
+    // loop through each dir
+    for (int i = 0; i < pathStrings.length; i++) {
+      // Check if the given dir exsit in parentdir
+      if (currentdir.containsDirectoryKey(pathStrings[i])) {
+        currentdir = currentdir.getDirectory(pathStrings[i]);
+      } else {
+        throw new nonvalidArgumentException("path doesnt exist");
+      }
+    }
+    return currentdir;
+  }
+
+
+  public directory currentToRoot(directory currentdir) {
+    while (currentdir.getParentDir() != null) {
+      currentdir = currentdir.getParentDir();
+    }
+    return currentdir;
+
+  }
+
+  /**
+   * save current working directory to directoryStack for pushd command
+   */
+  public void saveCurrentToStack() {
+    directoryStack.push(this.getCurrent());
+  }
+
+  /**
+   * stringPathtoDirectory is a helper function for pushd command still in testing and not a final
+   * version to be used for other commands
+   */
+  public directory stringPathToDirectory(String path) {
+
+    directory outputDir = null;
+
+    // String[] splitPath = path.split("/");
+
+    // absolute path case
+    if (path.startsWith("/")) {
+      outputDir = this.root;
+      path = path.substring(1);
+      String[] splitPath = path.split("/");
+
+      for (int i = 0; i < splitPath.length; i++) {
+        String dir = splitPath[i].toString();
+        if (outputDir.containsDirectoryKey(dir)) {
+          outputDir = outputDir.getSubdirectory(dir);
+        } else {
+          System.out.println("absolute path - directory not exists");
+        }
+      }
+
+    }
+
+    // relative path cases
+    else {
+
+      String[] splitPath = path.split("/");
+
+      for (int i = 0; i < splitPath.length; i++) {
+        String dir = splitPath[i].toString();
+
+        // Set up starting directory (checking the fist element of splitPath)
+        if (i == 0 && dir.equals("..")) {
+          outputDir = this.current.getParentDir();
+        } else if (i == 0 && dir.equals(".")) {
+          outputDir = this.current;
+        } else if (i == 0 && !dir.equals("..") && !dir.equals(".")) {
+          outputDir = this.current;
+        }
+        // check directoryMap to see if the directory from the given path exists
+        if (i != 0) {
+          if (outputDir.containsDirectoryKey(dir)) {
+            outputDir = outputDir.getSubdirectory(dir);
+          } else {
+            System.out.println("directory not exists");
+          }
+        }
+      }
+
+    }
+
+    return outputDir;
+  }
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="sun.jvm.hotspot.oops.java_lang_Class"/>
+    <fullyQualifiedTypeName name="driver.directory"/>
+    <fullyQualifiedTypeName name="sun.jvm.hotspot.memory.FileMapInfo.FileMapHeader"/>
+    <fullyQualifiedTypeName name="driver.nonvalidArgumentException"/>
+    <fullyQualifiedTypeName name="sun.print.PlatformPrinterJobProxy"/>
+    <fullyQualifiedTypeName name="com.sun.jdi.event.ThreadDeathEvent"/>
+    <fullyQualifiedTypeName name="lab7_project.FlightDataRecorder"/>
+    <fullyQualifiedTypeName name="org.graalvm.compiler.phases.common.RemoveValueProxyPhase"/>
+    <fullyQualifiedTypeName name="com.sun.java.util.jar.pack.Attribute.Layout.Element"/>
+    <fullyQualifiedTypeName name="com.sun.tools.classfile.Annotation.element_value"/>
+    <fullyQualifiedTypeName name="lab8_project.WaitList"/>
+    <fullyQualifiedTypeName name="sun.tools.tree.ThisExpression"/>
+    <fullyQualifiedTypeName name="java.lang.WeakPairMap.Pair.Weak"/>
+    <fullyQualifiedTypeName name="java.awt.print.Printable"/>
+    <fullyQualifiedTypeName name="java.lang.Override"/>
+    <fullyQualifiedTypeName name="test.MockFileManager"/>
+    <fullyQualifiedTypeName name="commands.Man"/>
+    <fullyQualifiedTypeName name="com.sun.org.apache.bcel.internal.generic.RETURN"/>
+    <fullyQualifiedTypeName name="java.io.OutputStream"/>
+    <fullyQualifiedTypeName name="org.graalvm.compiler.lir.StandardOp.ImplicitNullCheck"/>
+    <fullyQualifiedTypeName name="errorHandler.NonvalidArgumentException"/>
+    <fullyQualifiedTypeName name="E"/>
+    <fullyQualifiedTypeName name="com.sun.tools.sjavac.comp.dependencies.PublicApiCollector"/>
+    <fullyQualifiedTypeName name="errorHandler.Validator"/>
+    <fullyQualifiedTypeName name="org.graalvm.compiler.asm.sparc.SPARCAssembler.FMOVcc"/>
+    <fullyQualifiedTypeName name="data.FileManager"/>
+    <fullyQualifiedTypeName name="java.lang.System"/>
+    <fullyQualifiedTypeName name="data.JFileManager"/>
+    <fullyQualifiedTypeName name="java.lang.String"/>
+    <fullyQualifiedTypeName name="data.Directory"/>
+</qualifiedTypeNameHistroy>

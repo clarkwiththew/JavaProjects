@@ -1,0 +1,151 @@
+// **********************************************************
+// Assignment2:
+// Student1:
+// UTORID user_name:
+// UT Student #:
+// Author:
+//
+// Student2:
+// UTORID user_name:
+// UT Student #:
+// Author:
+//
+// Student3:
+// UTORID user_name:
+// UT Student #:
+// Author:
+//
+// Student4:
+// UTORID user_name:
+// UT Student #:
+// Author:
+//
+//
+// Honor Code: I pledge that this program represents my own
+// program code and that I have coded on my own. I received
+// help from no one in designing and debugging my program.
+// I have also read the plagiarism section in the course info
+// sheet of CSC B07 and understand the consequences.
+// *********************************************************
+package driver;
+
+import commands.command;
+import java.util.HashMap;
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.lang.reflect.InvocationTargetException;
+
+
+public class JShell {
+  
+  private static fileManager fm;
+  private HashMap<String, String> commandHashMap;
+  private static ArrayList<String> inputHistory;
+
+  // Initialize JShell Program
+
+  private JShell() {
+
+    // Load File Manager
+    fm = new fileManager();
+    // Load commandHashMap
+    commandHashMap = initializeCommandHashMap();
+    // Initialize command history
+    inputHistory = new ArrayList<String>();
+  }
+
+  private HashMap<String, String> initializeCommandHashMap() {
+    HashMap<String, String> commandHashMap = new HashMap<String, String>();
+    commandHashMap.put("man", "commands.man");
+    commandHashMap.put("history", "commands.history");
+    // adding the commands into the hashmap continues below
+    return commandHashMap;
+  }
+  
+  public static ArrayList<String> getInputHistory() {
+    
+    ArrayList<String> outputHistory = new ArrayList<String>(); 
+    
+    for (String c : inputHistory)
+      outputHistory.add(c);    
+    
+    return outputHistory;
+
+  }
+
+  public static void main(String[] args) {
+    
+    JShell shell = new JShell();
+    Scanner in = new Scanner(System.in);
+    
+    String userInput = "";   
+
+    System.out.print(">> ");
+
+    while (true) {
+      userInput = in.nextLine();
+      userInput = userInput.trim();
+      
+      // if input is exit, program terminates
+      if (userInput.equals("exit")) {
+        break;
+      }
+      
+      // at this point, userInput is added to history list so that history command can retrieve
+      
+      inputHistory.add(userInput);      
+
+      // Otherwise, parse the input into an array of strings
+      // the first element in tokens should be a command
+      
+      String[] argInputs = userInput.split(" ");
+
+//      System.out.println("the command input: " + splitInput[0]);
+//      System.out.println("-----");
+      
+      if (shell.commandHashMap.containsKey(argInputs[0])) {
+      
+        //stuff we learned from lab6 - hashmap & reflection
+        try {
+          
+          String name = shell.commandHashMap.get(argInputs[0]);
+          
+          try {
+            commands.command inputCommand =
+                (commands.command) Class.forName(name).getDeclaredConstructor().newInstance();
+            
+            // run necessary operations from each command created above from here
+            
+            String outputResult = inputCommand.run(fm, argInputs);
+            System.out.print(outputResult);
+            System.out.print(">> ");
+          
+          } catch (InstantiationException e) {
+            e.printStackTrace();
+          } catch (IllegalAccessException e) {
+            e.printStackTrace();
+          } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+          } catch (InvocationTargetException e) {
+            e.printStackTrace();
+          } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+          } catch (SecurityException e) {
+            e.printStackTrace();
+          }
+        } catch (ClassNotFoundException e) {
+          e.printStackTrace();
+          System.out.println("Invalid Command");
+        }
+      } else {
+        // waiting for another input from user
+        System.out.print(">> ");        
+      }
+
+
+
+    }
+    
+  }
+
+}

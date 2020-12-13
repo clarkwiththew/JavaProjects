@@ -1,0 +1,39 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import commands.Pushd;
+import data.FileManager;
+import errorHandler.NonvalidArgumentException;
+import org.junit.Before;
+
+public class PushdTest {
+
+    Pushd pushd = new Pushd();
+	private MockFileManager MockFM;
+  
+
+  @Before
+  public void setUp() {
+    // Initialize the MFS
+    MockFM = new MockFileManager();
+    data.Directory parentDir = new data.Directory("parent");
+    MockFM.directories.put("testdir", new data.Directory("testdir", parentDir));
+  }
+
+  @Test
+  public void testPushToNonExistingDir() throws NonvalidArgumentException {
+	  try {
+		  String []inputArrayString= {"pushd", "dne"};
+		  String result = pushd.run(MockFM, inputArrayString);
+		  assertEquals(result, "error with arguments, invalid directory");
+		  assertEquals(MockFM.currentDirectory, "");
+		  fail();
+	  } catch (NonvalidArgumentException e) {
+			 assertEquals(e.getMessage(), "error with arguments, invalid directory");
+	  }
+  }
+  
+  
+}

@@ -1,0 +1,57 @@
+package commands;
+import java.io.*;
+import driver. * ;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class mkdir.
+ */
+public class mkdir implements command {
+
+  /**
+   *  Create directories, each of which	 may be	relative to	the	current	
+   *  directory	or	may	be a full path.	
+   *
+   * @param fm the fileManager where the command is executed
+   * @param args The directories to be created
+   * @return A string of a new line, meaning no errors were encountered.
+   */
+  public String run(fileManager fm, String[] args) {
+    directory currentDir = fm.getCurrent();
+    if (args.length != 3) {
+      return "error, you do not have 2 directories as arguments\n";
+    }
+    else {
+      for (int i = 1; i < args.length; i++) {
+        if (args[i].chars().filter(num ->num == '/').count() == 0) {
+          try {
+        	if(args[i].matches("^.*[^a-zA-Z0-9 ].*$")) {
+        	        return "you have a nonvalid file name \n";
+        	}
+        	directory tempdirectory = new directory(args[i],currentDir);
+            currentDir.setDirectory(args[i], tempdirectory);
+          } catch(Exception e) {
+            return "Error coulnd't create dir" + i;
+          }
+        }
+        else {
+          String arg = args[i].substring(0, args[i].lastIndexOf("/")+1);
+          String argDirName = args[i].substring(args[i].lastIndexOf("/")+1, args[i].length());
+          if(argDirName.matches("^.*[^a-zA-Z0-9 ].*$")) {
+              return "you have a nonvalid file name \n";
+            }
+          try {
+        	directory tempdirectory = new directory(args[i],fm.pathToCurrent(currentDir, arg));
+            fm.pathToCurrent(currentDir, arg).setDirectory(argDirName, tempdirectory);
+          }
+          catch(Exception e) {
+            return "Error coulnd't create dir" + i + ", path dont exist";
+          }
+
+        }
+
+      }
+      return "";
+    }
+  }
+}

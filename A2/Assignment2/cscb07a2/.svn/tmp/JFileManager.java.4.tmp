@@ -1,0 +1,232 @@
+package data;
+
+import java.util.Stack;
+import java.util.ArrayList;
+import errorHandler.NonvalidArgumentException;
+import java.io.*;
+import driver.JShell;
+
+
+/**
+ * 
+ * File Manager where our commands are executed
+ *
+ */
+
+public class JFileManager implements FileManager, Serializable {
+  private static JFileManager fm = null;
+  private String fullCurrDirPath;
+  private Directory root;
+  private Directory current;
+  private Stack<Directory> directoryStack;
+  private static ArrayList<String> inputHistory; // will be used for serialization
+
+  /**
+   * Initialize JFileManager
+   */
+
+  private JFileManager() {
+    root = new Directory("/", null); // the parent directory of root should be null
+    current = root; // when the program first runs, current location should be root
+    directoryStack = new Stack<Directory>();
+    inputHistory = new ArrayList<String>();
+  }
+
+  public static JFileManager createFileManager() {
+    if (fm == null) {
+      fm = new JFileManager();
+    }
+
+    return fm;
+  }
+  
+  public void updateInputHistory() {
+    inputHistory = JShell.getInputHistory();
+  }
+  
+  public ArrayList<String> getInputHistory() {
+    ArrayList<String> outputHistory = new ArrayList<String>();
+    for (String c : inputHistory)
+      outputHistory.add(c);
+    return outputHistory;
+  }
+
+  /**
+   * Gets the current directory
+   */
+
+  public Directory getCurrent() {
+    return this.current;
+  }
+
+  /**
+   * Sets the input directory as the new current directory
+   */
+
+  public void setCurrent(Directory newCurrent) {
+    this.current = newCurrent;
+  }
+
+  /**
+   * Get the full path of the current directory
+   */
+
+  public String getPath() {
+    return this.fullCurrDirPath;
+  }
+
+  /**
+   * Sets the input path as our current directory path
+   */
+
+  public void setPath(String newPath) {
+    this.fullCurrDirPath = newPath;
+  }
+
+  /**
+   * Gets the current full path of the directory we are in
+   * 
+   * @return String
+   */
+
+  public String getCurrentFullPath() {
+    if (current.getDirName() == "/")
+      return "/";
+    else {
+      String path = current.retrieveFullPath();
+      return path;
+    }
+
+  }
+
+  /**
+   * Pushes a directory to the stack of directories
+   * 
+   * @param Directory to push
+   * @return The path of the directory stack
+   */
+
+  public void pushStack(Directory dir) {
+    directoryStack.push(dir);
+  }
+
+  /**
+   * Get the directory path that is at the top of the stack
+   * 
+   * @return The directory at the of the stack
+   */
+
+  public Directory popStack() {
+    Directory tmp = directoryStack.pop();
+    return tmp;
+  }
+
+  /**
+   * Path to current directory
+   * 
+   * @param Current directory
+   * @param path
+   * @return Path to current directory
+   */
+  // give it a path, it will return dir at the path
+  public Directory pathToCurrent(Directory currentDir, String path)
+      throws NonvalidArgumentException {
+    // check for absolute path
+    if (path.contains("//")) {
+      throw new NonvalidArgumentException("path doesn't exist");
+    }
+    if (path.length() == 1) {
+      if (path.substring(0, 1).equals(".")) {
+        return currentDir;
+      }
+      if (path.substring(0, 1).equals("/")) {
+        // make current path root
+        currentDir = currentToRoot(currentDir);
+        return currentDir;
+      }
+    }
+    if (path.substring(0, 1).equals("/")) {
+      // make current path root
+      currentDir = currentToRoot(currentDir);
+      // get rid of the first"/" in the path string
+      path = path.substring(1, path.length());
+    }
+    if (path.length() == 2) {
+      if (path.substring(0, 2).equals("..")) {
+        currentDir = currentDir.getParentDir();
+        return currentDir;
+      }
+    }
+    String[] pathStrings = path.split("/");
+    for (int i = 0; i < pathStrings.length; i++) {
+      if (pathStrings[i].equals("..")) {
+        currentDir = currentDir.getParentDir();
+        continue;
+      }
+      if (pathStrings[i].equals("."))
+        continue;
+      if (currentDir.containsDirectoryKey(pathStrings[i])) {
+        currentDir = currentDir.getDirectory(pathStrings[i]);
+      } else {
+        throw new NonvalidArgumentException("path doesn't exist");
+      }
+    }
+    return currentDir;
+  }
+
+
+  /**
+   * Current path to root
+   * 
+   * @param Current directory
+   * @return Current directory
+   */
+
+  public Directory currentToRoot(Directory currentdir) {
+    while (currentdir.getParentDir() != null) {
+      currentdir = currentdir.getParentDir();
+    }
+    return currentdir;
+
+  }
+
+  /**
+   * Save current working directory to directoryStack for pushd command
+   */
+  public void saveCurrentToStack() {
+    directoryStack.push(this.getCurrent());
+  }
+
+  /**
+   * given a path, return whether it is a file at the end of that path as a boolean
+   * 
+   * @param Path
+   * @param Current Directory
+   * @return boolean value of if the file is at the end
+   */
+
+  public boolean checkPathToFile(String path, Directory currentDir) {
+
+    if (path.substring(0, 1).equals("/")) {
+      currentDir = currentToRoot(currentDir);
+      path = path.substring(1, path.length());
+    }
+    if (path.chars().filter(num -> num == '/').count() == 0) {
+      return currentDir.containsFileKey(path);
+    }
+    String fileName = path.substring(path.lastIndexOf("/") + 1, path.length());
+    String pathtofile = path.substring(0, path.lastIndexOf("/") + 1);
+    Directory fileDirectory = null;
+    try {
+      fileDirectory = pathToCurrent(currentDir, pathtofile);
+    } catch (NonvalidArgumentException e) {
+      // TODO Auto-generated catch block
+      System.out.println("could not get path");
+    }
+    if (fileDirectory.containsFileKey(fileName)) {
+      return true;
+    }
+    return false;
+  }
+
+}

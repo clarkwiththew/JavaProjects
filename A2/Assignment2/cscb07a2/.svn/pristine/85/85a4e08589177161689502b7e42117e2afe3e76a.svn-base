@@ -1,0 +1,17 @@
+package commands;
+
+import driver.fileManager;
+
+public class ls implements command{
+
+	public String run(fileManager fm, String[] args) {
+		String output="";
+		
+         output+=fm.getCurrent().getDirKey()+"\n";
+         output+=fm.getCurrent().getFileKey()+"\n";
+
+        
+        return output;
+	}
+
+}

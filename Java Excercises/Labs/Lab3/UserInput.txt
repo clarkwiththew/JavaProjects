@@ -1,0 +1,9 @@
+Class name: UserInput
+
+Parent Class: 
+
+Subclasses: Microphone, Mouse, Keyboard, Webcam
+
+Responsibilities: allow the user to interact with laptop via input 
+
+Collaborators:

@@ -1,0 +1,43 @@
+package commands;
+
+import data.*;
+import errorHandler.NonvalidArgumentException;
+
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class pushd.
+ */
+public class Pushd implements Command {
+
+  /**
+   * Saves the current working directory by pushing onto directory stack and the changes the new
+   * current working directory to DIR
+   *
+   * @param fm the fileManager where the command is executed
+   * @param args Path of directory we want to change into
+   * @return New line if no error is encountered. Error if no directory is found
+   * @throws NonvalidArgumentException 
+   */
+  public String run(JFileManager fm, String[] args) throws NonvalidArgumentException {
+
+    fm.saveCurrentToStack();
+
+    if (args.length > 2 || args.length == 1) {
+      throw new NonvalidArgumentException("Error with arguments");
+    }
+
+    String path = args[1];
+
+    try {
+      Directory dirToAdd = fm.pathToCurrent(fm.getCurrent(), path);
+      fm.setCurrent(dirToAdd);
+    } catch (Exception e) {
+      throw new NonvalidArgumentException("Error with arguments");
+    }
+    return "";
+  }
+
+
+
+}

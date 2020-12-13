@@ -1,0 +1,121 @@
+package driver;
+
+import java.util.HashMap;
+
+public class directory {
+
+  private directory parentDir;
+  private String dirName;
+  private String fullDirPath;
+
+  private HashMap<String, directory> directoryMap = new HashMap<String, directory>();
+  private HashMap<String, file> fileMap = new HashMap<String, file>();
+
+  public directory getParentDir() {
+    return parentDir;
+  }
+
+  public String getDirName() {
+    return this.dirName;
+  }
+
+  public directory(String nameToAdd) {
+    this.dirName = nameToAdd;
+  }
+
+
+  public directory(String nameToAdd, directory parentToAdd) {
+    this.dirName = nameToAdd;
+    this.parentDir = parentToAdd;
+  }
+  //checks if a directory has a file
+  public boolean containsfileKey(String keyName) {
+    if (fileMap.containsKey(keyName)) {    return true;}
+    return false;
+  }
+  
+  
+  
+  public String getDirKey() {
+    String out = "";
+    for (String key : directoryMap.keySet()) {
+      out += key + "\n";
+    }
+    return out;
+  }
+
+  public String getFileKey() {
+    String out = "";
+    for (String key : fileMap.keySet()) {
+      out += key + "\n";
+    }
+    return out;
+  }
+
+  public void setDirectory(String nameOfDir, directory dirToAdd) throws nonvalidArgumentException {
+    if (directoryMap.containsKey(nameOfDir)) {
+      throw new nonvalidArgumentException("directory already exists");
+    }
+    directoryMap.put(nameOfDir, dirToAdd);
+    dirToAdd.parentDir = this;
+  }
+
+
+//  public directory getDirectory(String name) throws nonvalidArgumentException {
+//    if (directoryMap.containsKey(name)) {
+//      return directoryMap.get(name);
+//    } else {
+//      throw new nonvalidArgumentException("Directory does not exist");
+//    }
+//  }
+  public directory getDirectory(String name) {
+      return directoryMap.get(name);
+    
+  }
+
+//  public void setFile(String nameOfFile, file fileToAdd) throws nonvalidArgumentException {
+//    if (fileMap.containsKey(nameOfFile)) {
+//      throw new nonvalidArgumentException("file already exists");
+//    } else {
+//      fileMap.put(nameOfFile, fileToAdd);
+//    }
+//  }
+public void setFile(String nameOfFile, file fileToAdd)  {
+  fileMap.put(nameOfFile, fileToAdd);
+}
+
+  public String retrieveFullPath() {
+    String path = "";
+    directory temp;
+    
+    temp = this;
+    
+    while (temp != null) {
+      
+      if (temp.getDirName() == "/") {
+        path = temp.getDirName() + path;
+      } else {
+        path = temp.getDirName() + path;
+        path = "/" + path;
+      }
+     
+      temp = temp.getParentDir();      
+    }
+    
+    return path;
+  }
+
+//
+//  public file getFile(String nameOfFile) throws nonvalidArgumentException {
+//    if (fileMap.containsKey(nameOfFile)) {
+//      return fileMap.get(nameOfFile);
+//    } else {
+//      throw new nonvalidArgumentException("file not found");
+//    }
+//  }
+  public file getFile(String nameOfFile) {
+      return fileMap.get(nameOfFile);
+  }
+
+
+}

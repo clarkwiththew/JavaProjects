@@ -1,0 +1,130 @@
+package driver;
+
+import java.util.Stack;
+// TODO: Auto-generated Javadoc
+//gave error, so commented this import
+//import sun.jvm.hotspot.memory.FileMapInfo.FileMapHeader;
+
+
+/**
+ * The Class fileManager.
+ */
+public class fileManager {
+  
+  /** The full curr dir path. */
+  private String fullCurrDirPath;
+
+  /** The root. */
+  private directory root;
+  
+  /** The current. */
+  private directory current;
+  
+  /** The directory stack. */
+  private Stack<directory> directoryStack;
+
+  /**
+   * Instantiates a new file manager.
+   */
+  public fileManager() {
+    root = new directory("/", null); // the parent directory of root should be null
+    current = root; // when the program first runs, current location should be root
+    directoryStack = new Stack<directory>();
+  }
+
+  /**
+   * Gets the current.
+   *
+   * @return the current
+   */
+  public directory getCurrent() {
+    return this.current;
+  }
+
+  /**
+   * Sets the current.
+   *
+   * @param newCurrent the new current
+   */
+  public void setCurrent(directory newCurrent) {
+    this.current = newCurrent;
+  }
+  //gets the file at a path
+  //to be fixed
+  /**
+   * Gets the file.
+   *
+   * @param fileName the file name
+   * @return the file
+   */
+  //should return a file, but have it void for now to not give errors
+  public void getFile(String fileName) {
+
+  }
+
+  /**
+   * Gets the path.
+   *
+   * @return the path
+   */
+  public String getPath() {
+    return this.fullCurrDirPath;
+  }
+
+  /**
+   * Sets the path.
+   *
+   * @param newPath the new path
+   */
+  public void setPath(String newPath) {
+    this.fullCurrDirPath = newPath;
+  }
+  
+  /**
+   * Gets the current full path.
+   *
+   * @return the current full path
+   */
+  public String getCurrentFullPath() {
+    String path = current.retrieveFullPath();
+    return path + '\n';
+  }
+  
+
+  
+  /**
+   * Pop stack.
+   *
+   * @return the directory
+   */
+  public directory popStack() {
+	  return directoryStack.pop();
+  }
+  
+  /**
+   * Path to current.
+   *
+   * @param path the path
+   * @return the directory
+   * @throws nonvalidArgumentException the nonvalid argument exception
+   */
+  //give it a path, it will return the dir at end of that path
+  public directory pathToCurrent(directory currentdir, String path) throws nonvalidArgumentException{
+	  //break down path to dirs
+	  
+	  String[] pathStrings = path.split("/");
+
+	  // loop through each dir
+	  for (int i = 0; i < pathStrings.length; i++) {
+
+		// Check if the given dir exsit in parentdir
+		if ( currentdir.containsDirectoryKey(pathStrings[i])) {
+			currentdir = currentdir.getDirectory(pathStrings[i]);
+		}
+		else {
+			throw new nonvalidArgumentException("path doesnt exist");
+		}
+	}
+	return currentdir;
+  }
+}

@@ -1,0 +1,9 @@
+Class name: Microphone
+
+Parent Class: UserInput
+
+Subclasses:
+
+Responsibilities: Allows user to input voice to laptop
+
+Collaborators:

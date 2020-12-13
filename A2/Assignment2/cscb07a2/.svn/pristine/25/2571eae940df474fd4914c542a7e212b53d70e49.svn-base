@@ -1,0 +1,33 @@
+package commands;
+
+import driver.*;
+
+/**
+ * The Class pwd.
+ */
+public class pwd implements command {
+
+
+  /**
+   * Print the current working directory (including the whole path)
+   *
+   * @param fm the fileManager where the command is executed
+   * @return Whole path of current working directory (including itself)
+   */
+  public String run(fileManager fm, String[] args) throws nonvalidArgumentException {
+
+    if (args.length != 1) {
+      throw new nonvalidArgumentException("No extra argument required for pwd command");
+    }
+
+    if (fm.getCurrent().getDirName() == "/") {
+      return "/\n";
+    } else {
+      return fm.getCurrentFullPath();
+    }
+
+
+  }
+
+
+}

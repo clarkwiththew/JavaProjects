@@ -1,0 +1,9 @@
+Class name: Webcam
+
+Parent Class: UserInput
+
+Subclasses: 
+
+Responsibilities: Allow user to record themselves
+
+Collaborators:

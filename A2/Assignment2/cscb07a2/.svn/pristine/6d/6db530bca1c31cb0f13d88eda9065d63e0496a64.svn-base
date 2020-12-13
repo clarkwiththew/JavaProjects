@@ -1,0 +1,110 @@
+package commands;
+
+import errorHandler.NonvalidArgumentException;
+import errorHandler.Validator;
+import data.*;
+
+public class Echo implements Command {
+
+  /**
+   * 
+   * Output the string that is input
+   *
+   * @param fm the fileManager where the command is executed
+   * @param args The string to output
+   * @return The string to output
+   */
+
+  private void makeFile(String fileName, String output, JFileManager fm) {
+    if (fm.getCurrent().containsFileKey(fileName)) {
+      // file exists, append
+      fm.getCurrent().getFile(fileName).setContents(output);
+    } else {
+      // file does not exist, make it
+      File newFile = new File(fileName, fm.getCurrent());
+      newFile.setContents(output);
+      fm.getCurrent().setFile(fileName, newFile);
+    }
+  }
+
+  private void echoHelper(String output, String holderString, int indexOverwrite, int indexAppend,
+      String fileName, JFileManager fm, Directory currentDir) throws NonvalidArgumentException {
+    if (indexOverwrite != -1 && indexAppend != -1) {
+      // print to screen
+      throw new NonvalidArgumentException("error with input, you have too many redirections ");
+    }
+    // indexOverwrite is nonexistent, we have >>
+    else if (indexAppend != -1) {
+      fileName = holderString.substring(indexAppend + 2);
+      fileName = fileName.trim();
+      if (Validator.checkFileName(fileName)) {
+        throw new NonvalidArgumentException("error with input, nonvalid file name");
+      }
+      output = currentDir.getFile(fileName).getFileContents() + "\n" + output;
+      makeFile(fileName, output, fm);
+    }
+    // indexAppend is nonexistent, we have >
+    else if (indexOverwrite != -1) {
+      fileName = holderString.substring(indexOverwrite + 1);
+      fileName = fileName.trim();
+      if (Validator.checkFileName(fileName)) {
+        throw new NonvalidArgumentException("error with input, invalid filename");
+      }
+      makeFile(fileName, output, fm);
+    } else {
+      throw new NonvalidArgumentException("error with input,could not make file");
+    }
+  }
+
+  private String functionParser(String output, int indexOverwrite, int indexAppend, String fileName,
+      JFileManager fm, Directory currentDir, String holderString) throws NonvalidArgumentException {
+    String[] quoteArray = holderString.split("\"");
+    // output string for echo
+    if (indexOverwrite == -1 && indexAppend == -1) {
+      // if you have invalid inputs, throw error
+      if (!quoteArray[0].isBlank() || !quoteArray[2].isBlank()) {
+        throw new NonvalidArgumentException("error with input, invalid addition");
+      }
+      // print to screen
+      return output + "\n";
+    }
+    echoHelper(output, holderString, indexOverwrite, indexAppend, fileName, fm, currentDir);
+    return "";
+  }
+
+  public String run(JFileManager fm, String[] args) throws NonvalidArgumentException {
+    String fileName = "";
+    String output = "";
+    Directory currentDir;
+    String holderString = "";
+    for (int i = 1; i < args.length; i++) {
+      holderString += args[i] + " ";
+    }
+    if (!Validator.checkQuote(args) && args[1].charAt(0) != '\"') {
+      throw new NonvalidArgumentException("error with input, you need 2 quotes surrounding input");
+    }
+    // we want to check if the user typed quotes in quotes, which is illegal
+    holderString.trim();
+    int firstQuote = holderString.indexOf("\"");
+    int secQuote = holderString.indexOf("\"", firstQuote + 1);
+    output = holderString.substring(firstQuote + 1, secQuote);
+    int indexAppend = holderString.indexOf(">>", secQuote + 1);
+    int indexOverwrite = -1;
+    // if >> does not exist
+    if (indexAppend == -1) {
+      indexOverwrite = holderString.indexOf(">", secQuote + 1);
+    }
+    // if fileName is path
+    if (fileName.contains("/")) {
+      String[] pathHolder = fileName.split("/");
+      String newFile = pathHolder[pathHolder.length - 1];
+      // get the fileName
+      newFile = newFile.trim();
+      currentDir = fm.pathToCurrent(fm.getCurrent(), fileName);
+    } else {
+      currentDir = fm.getCurrent();
+    }
+    return functionParser(output, indexOverwrite, indexAppend, fileName, fm, currentDir,
+        holderString);
+  }
+}

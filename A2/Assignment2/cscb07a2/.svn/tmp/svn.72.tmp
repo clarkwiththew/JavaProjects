@@ -1,0 +1,43 @@
+package commands;
+
+import data.Directory;
+import data.FileManager;
+import data.JFileManager;
+import errorHandler.NonvalidArgumentException;
+/**
+ * @author Junheng Wang
+ */
+public class Tree implements Command{
+
+  private void treeHelper(Directory dir){
+    
+    if(!dir.containsDirectoryKey("")) {
+      return;
+    }
+    System.out.print("");
+    
+    treeHelper(dir);
+    
+    
+  }
+  
+  @Override
+  public String run(FileManager fm, String[] args) throws NonvalidArgumentException {
+    // TODO Auto-generated method stub
+    if (args.length != 1 && (!(args[1].contains(">")))) {
+      throw new NonvalidArgumentException("error with arguments, invalid arguments given");
+    }
+    String outputString="";
+    outputString+="\\\n";
+    
+    for (int i = 0; i < args.length; i++) {
+      if (args[i].contains(">")) {
+        fm.redirection(fm, args, outputString);
+        return "";
+      }
+
+    }
+    return outputString;
+  }
+
+}

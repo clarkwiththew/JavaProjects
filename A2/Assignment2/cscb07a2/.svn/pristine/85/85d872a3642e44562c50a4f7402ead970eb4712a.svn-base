@@ -1,0 +1,71 @@
+package driver;
+
+import java.util.Stack;
+import sun.jvm.hotspot.memory.FileMapInfo.FileMapHeader;
+
+
+public class fileManager {
+  private String fullCurrDirPath;
+
+  private directory root;
+  private directory current;
+  private Stack<directory> directoryStack;
+
+  public fileManager() {
+    root = new directory("/", null); // the parent directory of root should be null
+    current = root; // when the program first runs, current location should be root
+    directoryStack = new Stack<directory>();
+  }
+
+  public directory getCurrent() {
+    return this.current;
+  }
+
+  public void setCurrent(directory newCurrent) {
+    this.current = newCurrent;
+  }
+  //gets the file at a path
+  //to be fixed
+  public file getFile(String fileName) {
+    file newFile;
+
+    return newFile;
+
+  }
+
+  public String getPath() {
+    return this.fullCurrDirPath;
+  }
+
+  public void setPath(String newPath) {
+    this.fullCurrDirPath = newPath;
+  }
+  
+  public String getCurrentFullPath() {
+    String path = current.retrieveFullPath();
+    return path + '\n';
+  }
+  
+
+  
+  public directory popStack() {
+	  return directoryStack.pop();
+  }
+
+  public directory pathToCurrent(String path) throws nonvalidArgumentException{
+	  String[] pathStrings = path.split("/");
+	  for (int i = 0; i < pathStrings.length; i++) {
+		if ( current.getDirectory(pathStrings[i]).getDirName() == "/") {
+			setCurrent(current.getDirectory(pathStrings[i]));
+		}
+		else if (current.getDirectory(pathStrings[i]).getDirName() == pathStrings[i-1]) {
+			
+			setCurrent(current.getDirectory(pathStrings[i]));
+		}
+		else {
+			throw new nonvalidArgumentException("path doesnt exist");
+		}
+	}
+	return current;
+  }
+}

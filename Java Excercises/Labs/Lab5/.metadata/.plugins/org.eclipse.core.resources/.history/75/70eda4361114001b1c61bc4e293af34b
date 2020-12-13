@@ -1,0 +1,10 @@
+Class name: pushd
+Parent Class: command
+
+Responsibilities: 
+* Move the current directory to the stack 
+* Set new current directory given by user
+
+
+
+

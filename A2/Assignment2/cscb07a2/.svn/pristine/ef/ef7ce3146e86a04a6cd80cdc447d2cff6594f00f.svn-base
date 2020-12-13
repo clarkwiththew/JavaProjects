@@ -1,0 +1,50 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import commands.Popd;
+import commands.Pushd;
+import data.FileManager;
+import errorHandler.NonvalidArgumentException;
+import org.junit.Before;
+
+public class PopdTest {
+	
+	Popd popd=new Popd();
+    Pushd pushd = new Pushd();
+    
+	private MockFileManager MockFM;
+  
+
+  @Before
+  public void setUp() {
+    // Initialize the MFS
+    MockFM = new MockFileManager();
+    data.Directory parent = new data.Directory("parent");
+    MockFM.directories.put("testdir", new data.Directory("testdir", parent));
+  }
+
+
+  @Test
+  public void Error() throws NonvalidArgumentException{
+	  try {
+		  String []inputArrayString= {""};
+		  String actualOutput = popd.run(MockFM,inputArrayString);
+		  String expectedOutput= "error, could not make directory";
+		  assertEquals(actualOutput, expectedOutput);
+		  fail();
+	  } catch (NonvalidArgumentException e) {
+			 assertEquals(e.getMessage(), "error, could not make directory");
+	  }
+  }
+  
+  @Test
+  public void testPopAfterPush() {
+	String []inputArrayString= {"pushd","parent"};
+    String result = MockFM.currentDirectory;
+    pushd.run(MockFM, "inputArrayString");
+    assertEquals(result, MockFM.popStack());
+  }
+  
+}

@@ -1,0 +1,17 @@
+package commands;
+
+public class exit implements command {
+	
+	public String run(String[]args) throws NonvalidArgException{
+		
+		if(args.length==0)
+		{
+		System.exit(0);
+		return "";
+		}
+		
+			throw new NonvalidArgException("error");
+		
+	}
+
+}

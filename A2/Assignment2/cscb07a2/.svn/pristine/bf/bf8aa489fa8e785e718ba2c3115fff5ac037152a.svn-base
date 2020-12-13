@@ -1,0 +1,70 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import commands.Man;
+import data.FileManager;
+import errorHandler.NonvalidArgumentException;
+import org.junit.Before;
+
+public class ManTest {
+	
+	Man man=new Man();
+        
+	private MockFileManager MockFM;
+  
+
+  @Before
+  public void setUp() {
+    // Initialize the MFS
+    MockFM = new MockFileManager();
+  }
+
+
+  @Test
+  public void ValidCmd() throws NonvalidArgumentException {
+    String []inputArrayString= {"man", "pwd"};
+    String actualOutput = man.run(MockFM,inputArrayString);
+    String expectedOutput=
+        "\nNAME\n\t\t" + 
+        "pwd\n" + 
+        "SYNOPSIS\n\t\t" + 
+        "pwd\n" + 
+        "DESCRIPTION\n\t\t" + 
+        "Print name of current working directory.\n\n";
+
+    assertEquals(actualOutput, expectedOutput);
+  }
+  
+  @Test
+  public void InvalidCmd() throws NonvalidArgumentException {
+
+	  try {
+		  String []inputArrayString= {"man", "abcd"};
+		  String actualOutput = man.run(MockFM, inputArrayString);
+		  String expectedOutput= "error, unable to recognize command";
+		  assertEquals(actualOutput, expectedOutput);
+		  fail();
+	 } catch (NonvalidArgumentException e) {
+		 assertEquals(e.getMessage(), "error, unable to recognize command");
+	 }
+  }
+
+  
+  @Test
+  public void Empty() throws NonvalidArgumentException{
+	  try {
+		  String []inputArrayString= {"man"};
+		  String actualOutput = man.run(MockFM, inputArrayString);
+		  String expectedOutput= "error, requires only one command argument";
+		  assertEquals(actualOutput, expectedOutput);
+		  fail();
+	 } catch (NonvalidArgumentException e) {
+		 assertEquals(e.getMessage(), "error, requires only one command argument");
+	 }
+	  
+  }
+
+
+}

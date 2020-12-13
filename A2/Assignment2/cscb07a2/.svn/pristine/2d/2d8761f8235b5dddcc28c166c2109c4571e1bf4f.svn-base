@@ -1,0 +1,18 @@
+package driver;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class nonvalidArgumentException.
+ */
+@SuppressWarnings("serial")
+public class nonvalidArgumentException extends Exception {
+
+  /**
+   * Instantiates a new nonvalid argument exception.
+   *
+   * @param message the message
+   */
+  public nonvalidArgumentException(String message) {
+    super(message);
+  }
+}

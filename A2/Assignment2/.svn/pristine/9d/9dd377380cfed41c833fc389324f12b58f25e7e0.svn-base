@@ -1,0 +1,17 @@
+package commands;
+
+import driver.*;
+
+public class cd implements command{
+
+	public String run(fileManager fm, String[] args){
+		String output="";
+		if (args.length-1==1) {			 
+		fm.setCurrent(fm.getCurrent().getDirectory(args[1]));
+		fm.setPath(fm.getPath()+args[1]);
+		}
+
+		return output;
+	}
+
+}

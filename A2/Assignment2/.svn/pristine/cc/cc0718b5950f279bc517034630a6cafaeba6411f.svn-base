@@ -1,0 +1,79 @@
+/**
+ * 
+ */
+package commands;
+import java.util.HashMap; // import the HashMap class
+
+
+public class man implements command {
+
+  private HashMap<String, String> cmdManual;
+
+  public man() {
+    cmdManual = initializeCmdManual();
+  }
+
+  public String run() {
+    return "";
+  }
+
+  public String run(driver.fileManager fm, String[] splitInput) {
+
+    String outputString = "";
+
+    boolean validity = true;
+
+    if (splitInput.length > 2)
+      validity = false;
+
+    else if (splitInput.length == 2) {
+      try {
+        outputString = cmdManual.get(splitInput[1]);
+      } catch (Exception e) {
+        validity = false;
+      }
+    }
+
+    if (validity)
+      return outputString;
+    else
+      return "argument not valid\n";
+
+  }
+
+  private HashMap<String, String> initializeCmdManual() {
+
+    HashMap<String, String> cmdMan = new HashMap<String, String>();
+
+    cmdMan.put("exit", "\n\t exits the program\n");
+    cmdMan.put("mkdir", "Create the DIRECTORY(ies), if they do not already exist.\n");
+    cmdMan.put("cd", "Change the shell working directory. "
+        + "Change the current directory to DIR.\n");
+    cmdMan.put("ls", "list directory contents\n");
+
+    cmdMan.put("pwd", "print name of current working directory.\n");
+
+    cmdMan.put("pushd",
+        "Saves the current working directory by pushing onto directory stack "
+        + "and then changes the new current working directory to DIR.\n");
+
+    cmdMan.put("popd", "remove the top entry from the directory stack, and cd into it.\n");
+
+    cmdMan.put("history",
+        "print out recent commands. "
+        + "truncates the output by specifying a number after the command.\n");
+
+    cmdMan.put("cat", 
+        "display the contents of FILE1 and other files concatenated in the shell.\n");
+
+    cmdMan.put("echo",
+        "if OUTFILE is not provided, print STRING on the shell. "
+        + "Otherwise, put STRING into file OUTFILE.\n");
+
+    cmdMan.put("man", "print documentation for CMD.\n");
+
+    return cmdMan;
+  }
+
+}
+

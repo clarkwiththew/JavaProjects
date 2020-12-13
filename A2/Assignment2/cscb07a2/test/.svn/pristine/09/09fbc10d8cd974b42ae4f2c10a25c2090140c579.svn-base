@@ -1,0 +1,39 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+import commands.Rm;
+import commands.SaveJShell;
+import data.FileManager;
+import errorHandler.NonvalidArgumentException;
+import org.junit.Before;
+
+/**
+ * 
+ * @author Ethan Anada
+ *
+ */
+
+public class SaveJShellTest {
+	
+	SaveJShell savejshell = new SaveJShell();
+	private MockFileManager MockFM;
+	
+	/**
+	   * 
+	   *  SaveJSHell command set up
+	   */
+	
+	@Before
+	public void setUp() {
+		MockFM = new MockFileManager();
+	}
+
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}

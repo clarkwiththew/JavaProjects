@@ -1,0 +1,18 @@
+package driver;
+
+import java.util.Stack;
+
+
+public class fileManager {
+  
+  private directory root;
+  private directory current;
+  private Stack<String> directoryStack;
+  
+  public fileManager () {
+    root = new directory("", null); // the parent directory of root should be null
+    current = root; // when the program first runs, current location should be root
+    directoryStack = new Stack<String>();
+  }
+
+}

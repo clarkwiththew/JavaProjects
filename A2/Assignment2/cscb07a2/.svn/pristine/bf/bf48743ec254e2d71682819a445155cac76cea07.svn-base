@@ -1,0 +1,52 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+import commands.Mkdir;
+import commands.Mv;
+import data.FileManager;
+import errorHandler.NonvalidArgumentException;
+import org.junit.Before;
+
+/**
+ * 
+ * @author Ethan Anada
+ *
+ */
+
+public class MvTest {
+	
+	Mv mv = new commands.Mv();
+	private MockFileManager MockFM;
+
+	
+	/**
+	   * Mv command set up
+	   */
+	
+	@Before
+	public void setUp() {
+		MockFM = new MockFileManager();
+	}
+
+	@Test
+	 /**
+	   * Move 1 directory.
+	   */
+	public void moveone() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	  /**
+	   * Moving of 1 directory with subdirectories.
+	   */
+	  public void movesome() {
+		
+	}
+	
+	
+
+}

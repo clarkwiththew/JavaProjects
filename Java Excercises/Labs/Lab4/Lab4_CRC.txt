@@ -1,0 +1,68 @@
+Class name: Vehicle
+Parent class (if any): None
+Subclasses(if any): Car, Plane
+Responsibilities:
+* starts vehicle
+* moves vehicle
+* stops vehicle
+Collaborators:
+* Engine
+* Brake
+* Accelerate
+
+Class name: Car
+Parent class (if any): Vehicle
+Subclasses(if any): None
+Responsibilities:
+* starts car
+* drives car
+* stops car
+Collaborators:
+* None
+
+Class name: Plane
+Parent class (if any): Vehicle
+Subclasses(if any): None
+Responsibilities:
+* starts plane
+* flies plane
+* stops plane
+Collaborators:
+* Wings
+
+Class name: Engine
+Parent class (if any): None
+Subclasses(if any): None
+Responsibilities:
+* activate engine
+* deactivate engine
+
+Collaborators:
+* None
+
+Class name: Brake
+Parent class (if any): None
+Subclasses(if any): None
+Responsibilities:
+* Activates brake to initiate slowing down
+Collaborators:
+* None
+
+Class name: Accelerate
+Parent class (if any): None
+Subclasses(if any): None
+Responsibilities:
+* speeds up 
+* slows down 
+* maintains speed to keep moving
+Collaborators:
+* None
+
+Class name: Wings
+Parent class (if any): None
+Subclasses(if any): None
+Responsibilities:
+* activate wings to enable flying
+* deactivate wings after landing
+Collaborators:
+* None

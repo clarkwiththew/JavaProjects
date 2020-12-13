@@ -1,0 +1,20 @@
+package commands;
+
+// TODO: Auto-generated Javadoc
+//import driver.*;
+
+/**
+ * The Interface command.
+ */
+public interface command {
+    
+    /**
+     * Run.
+     *
+     * @param fm the fileManager
+     * @param args the args
+     * @return None
+     */
+    public String run(driver.fileManager fm, String[] args);
+    
+}

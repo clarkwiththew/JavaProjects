@@ -1,0 +1,9 @@
+Class name: echoOverwrite
+Parent class: command
+
+Responsibilities: 
+*removes current content of files and appends new string given by user
+
+Collaborators:
+*file
+*path

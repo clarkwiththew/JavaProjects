@@ -1,0 +1,42 @@
+package commands;
+
+import driver.*;
+
+public class cd implements command {
+
+  /**
+   * Run.
+   *
+   * @param fm the fm
+   * @param args the args
+   * @return the string
+   */
+  public String run(fileManager fm, String[] args) {
+    if (args.length!=2) {
+      return "nonvalid arguments";
+    }
+    String holder=args[1].trim();
+
+    if (holder.equals("..")) {
+      fm.setCurrent(fm.getCurrent().getParentDir());
+      //fm.setPath(fm.getCurrent().getParentDir().getParentDirPath());
+    }
+//      try {
+//        fm.setCurrent(fm.getCurrent().getDirectory(args[1]));
+//        //TODO:check if path is relative or not 
+//        fm.setPath(fm.getPath() + args[1]);
+//      } 
+//      catch (nonvalidArgumentException e) {
+//        return "non valid path given";
+//      }
+    else {
+  fm.setCurrent(fm.getCurrent().getDirectory(args[1]));
+  //TODO:check if path is relative or not 
+  fm.setPath(fm.getPath() + args[1]);
+  }
+  
+  
+  return "";
+}
+
+}

@@ -1,0 +1,24 @@
+package commands;
+
+import driver.nonvalidArgumentException;
+
+// TODO: Auto-generated Javadoc
+// import driver.*;
+
+/**
+ * The Interface command .
+ */
+public interface command {
+
+
+  /**
+   * Run.
+   *
+   * @param fm the fileManager where the command is executed
+   * @param args The required parameters for the input command
+   * @return The output of the input command
+   */
+  public String run(driver.fileManager fm, String[] args) throws Exception;
+
+
+}

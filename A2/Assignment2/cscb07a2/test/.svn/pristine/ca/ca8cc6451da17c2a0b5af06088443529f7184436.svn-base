@@ -1,0 +1,56 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+import commands.Mkdir;
+import data.FileManager;
+import errorHandler.NonvalidArgumentException;
+import org.junit.Before;
+
+/**
+ * 
+ * @author Ethan Anada
+ *
+ */
+
+public class MkdirTest {
+
+	Mkdir mkdir = new commands.Mkdir();
+	private MockFileManager MockFM;
+
+	
+	/**
+	   * Mkdir command set up
+	   */
+	
+	@Before
+	public void setUp() {
+		MockFM = new MockFileManager();
+	}
+	
+	@Test
+	/**
+	   * 1 directory as path.
+	   */
+	public void onepath() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	/**
+	   * Multiple directories as path.
+	   */
+	public void multiplepaths() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	/**
+	   * Invalid path.
+	   */
+	public void invalid() {
+		fail("Not yet implemented");
+	}
+}

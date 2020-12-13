@@ -1,0 +1,27 @@
+package data;
+
+import errorHandler.NonvalidArgumentException;
+
+public interface FileManager {
+  public Directory getCurrent();
+
+  public void setCurrent(Directory newCurrent);
+
+  public String getPath();
+
+  public void setPath(String newPath);
+
+  public String getCurrentFullPath();
+
+  public void pushStack(Directory dir);
+
+  public Directory popStack();
+
+  public Directory pathToCurrent(Directory currentdir, String path)
+      throws NonvalidArgumentException;
+
+  public Directory currentToRoot(Directory currentdir);
+
+
+  public boolean checkPathToFile(String path, Directory currentDir);
+}

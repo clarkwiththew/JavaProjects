@@ -1,0 +1,72 @@
+package test;
+
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+
+import data.JFileManager;
+import errorHandler.NonvalidArgumentException;
+import commands.Cat;
+
+/**
+ * 
+ * @author Ethan Anada
+ *
+ */
+
+
+public class CatTest {
+	
+	Cat cat = new commands.Cat();
+	private MockFileManager MockFM;
+	
+	
+	/**
+	   * CatTest command setup
+	   * 
+	   * @param none
+	   * @return none
+	   */
+	@Before
+	public void setUp() {
+		MockFM = new MockFileManager();
+
+		    }
+	
+	/**
+	   * CatTest with a single file
+	   * 
+	   * @param none
+	   * @return none
+	   */
+	
+	@Test
+	public void SingleFile() {
+		fail("Not yet implemented");
+	}
+	
+	/**
+	   * CatTest with a multiple files
+	   * 
+	   * @param none
+	   * @return none
+	   */
+	
+	@Test
+	public void MultipleFile() {
+		fail("Not yet implemented");
+	}
+	
+	
+	/**
+	   * CatTest with no file
+	   * 
+	   * @param none
+	   * @return none
+	   */
+	@Test
+	public void NoFile() {
+		fail("Not yet implemented");
+	}
+
+}

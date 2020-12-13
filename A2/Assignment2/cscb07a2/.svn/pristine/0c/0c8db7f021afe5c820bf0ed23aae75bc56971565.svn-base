@@ -1,0 +1,46 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import org.junit.Before;
+import commands.Cd;
+import errorHandler.NonvalidArgumentException;
+
+
+
+public class CdTest {
+	
+	Cd cd = new commands.Cd();
+	private MockFileManager MockFM; 
+	
+	
+	  @Before
+	  public void setUp() {
+	    // Create a new mock filesystem with a directory named testdir,
+	    // whose parent is the root directory
+	    MockFM = new MockFileManager();
+	    MockFM.directories.put("mockdir",
+	        new data.Directory("mockdir",MockFM.directories.get("")));
+	  }
+	
+	  
+	  /**
+	   * Testing changing to a directory that exists in the filesystem
+	   */
+	  @Test
+	  public void testChangeToExistingDir() throws NonvalidArgumentException{
+	    // cd should be able to change to testdir and return a newline
+	    try {
+	    	String []inputArrayString= {"cd", "testdir"};
+	    	String result = cd.run(MockFM, "inputArrayString");
+	    	assertEquals(result, "\n");
+	    	// The new current directory should reflect the change
+	    	assertEquals(MockFM.currentDirectory, "testdir");
+	    } catch (NonvalidArgumentException e) {
+	      // This shouldn't cause an error
+	      fail("Error when changing to a valid directory");
+	    }
+	  }
+
+}

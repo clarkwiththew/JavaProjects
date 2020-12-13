@@ -1,0 +1,17 @@
+package commands;
+import driver.*;
+public class pwd implements command{
+
+
+
+		public String run(fileManager fm, String[] args) {
+			String output="";
+		    if (args.length == 0) {
+		    	return fm.getPath();
+		        }
+		    return output;
+
+		}
+
+
+}

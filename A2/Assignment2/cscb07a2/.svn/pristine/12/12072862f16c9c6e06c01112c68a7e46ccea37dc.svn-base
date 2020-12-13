@@ -1,0 +1,41 @@
+
+package commands;
+
+import java.util.ArrayList;
+import errorHandler.*;
+
+public class History implements Command {
+
+  private ArrayList<String> hist;
+
+  public History() {
+    hist = driver.JShell.getInputHistory();
+  }
+
+  /**
+   * This command will print out recent commands, one command per line
+   *
+   * @param fm the fileManager where the command is executed
+   * @param splitInput Total amount of previous commands wanted to be displayed, or all the previous
+   *        commands if no number is input
+   * @return List of the last x previous commands given
+   */
+  public String run(data.JFileManager fm, String[] splitInput) throws NonvalidArgumentException {
+    String output = "";
+    int beginningIdx = 0;
+    if (splitInput.length > 2)
+        throw new NonvalidArgumentException("not valid arguments");
+    else if (splitInput.length == 2) {
+      try {
+        int argInteger = Integer.parseInt(splitInput[1]);
+        beginningIdx = Math.max(hist.size() - argInteger, 0);
+      } catch (Exception e) {
+        throw new NonvalidArgumentException("not valid arguments");
+      }
+    }
+    for (int i = beginningIdx; i < hist.size(); i++)
+      output += (i + 1) + ". " + hist.get(i) + "\n";
+    return output;
+  }
+
+}

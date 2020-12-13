@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="selection" value="remove"/>
+		<item key="wrap" value="false"/>
+		<item key="casesensitive" value="true"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<list key="findhistory">
+			<item value="remove"/>
+			<item value="getvalue"/>
+			<item value="iterator"/>
+			<item value="E "/>
+			<item value="E"/>
+			<item value=" e "/>
+			<item value="split"/>
+			<item value="you have"/>
+			<item value="format"/>
+			<item value="invalid input"/>
+			<item value="run"/>
+			<item value="error with arg"/>
+			<item value="error, invalid input"/>
+			<item value="quotes"/>
+			<item value="fileContents"/>
+		</list>
+		<list key="replacehistory">
+			<item value="contents"/>
+			<item value="line"/>
+			<item value="newFile"/>
+			<item value="urlFile"/>
+			<item value="scanner"/>
+			<item value="indexOverwrite"/>
+			<item value="indexAppend"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="976"/>
+		<item key="DIALOG_Y_ORIGIN" value="153"/>
+		<item key="DIALOG_WIDTH" value="289"/>
+		<item key="DIALOG_HEIGHT" value="408"/>
+		<item key="DIALOG_FONT_NAME" value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont"/>
+	</section>
+</section>

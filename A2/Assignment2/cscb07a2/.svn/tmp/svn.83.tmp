@@ -1,0 +1,60 @@
+package test;
+
+import static org.junit.Assert.*
+;
+
+import org.junit.Test;
+
+import org.junit.Before;
+
+import errorHandler.NonvalidArgumentException;
+import commands.History;
+import commands.History;
+
+
+public class HistoryTest {
+	History history=new History();
+    
+	private MockFileManager MockFM;
+	
+	@Before
+	public void setUp() {
+		MockFM = new MockFileManager();
+		MockFM.history.add("testcommand1");
+		MockFM.history.add("testcommand2");
+	}
+	
+	@Test
+	public void FloatInput() throws NonvalidArgumentException {
+		try {
+		String []inputArrayString= {"history", "4.20420"};
+	    String actualOutput = history.run(MockFM, inputArrayString);
+	    String expectedOutput="error with arguments, invalid arguments given";
+	    assertEquals(actualOutput, expectedOutput);
+		} catch  (NonvalidArgumentException e) {
+			 assertEquals(e.getMessage(), "error with arguments, invalid arguments given");
+		}
+	}
+	
+	@Test
+	public void StringInput() throws NonvalidArgumentException {
+		try {
+		String []inputArrayString= {"history", "testing"};
+	    String actualOutput = history.run(MockFM, inputArrayString);
+	    String expectedOutput="error with arguments, invalid arguments given";
+	    assertEquals(actualOutput, expectedOutput);
+		} catch  (NonvalidArgumentException e) {
+			 assertEquals(e.getMessage(), "error with arguments, invalid arguments given");
+		}
+	}
+	
+	@Test
+	public void validinput() throws NonvalidArgumentException {
+		String []inputArrayString= {"history", "1"};
+		String actualOutput = history.run(MockFM, inputArrayString);
+		String expectedOutput="1. testcommand1\n" + 
+				"2. testcommand2";
+		assertEquals(actualOutput, expectedOutput);
+		}
+
+}

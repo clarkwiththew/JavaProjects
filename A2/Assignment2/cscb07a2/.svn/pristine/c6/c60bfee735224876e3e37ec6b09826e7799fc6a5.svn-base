@@ -1,0 +1,23 @@
+package errorHandler;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CommandException.
+ */
+/**
+ * @author Junheng Wang
+ */
+@SuppressWarnings("serial")
+public abstract class CommandException extends Exception {
+  
+  /**
+   * Instantiates a new command exception.
+   *
+   * @param message the message
+   */
+  public CommandException(String message) {
+    super(message);
+  }
+}
+
+

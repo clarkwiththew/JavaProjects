@@ -1,0 +1,23 @@
+/**
+ * 
+ */
+package commands;
+
+import java.util.ArrayList;
+
+/**
+ * @author junhengsaccount
+ *
+ */
+public class history implements command{
+	//get the user's 
+	  public static void addToHistory(String userInput, ArrayList<String> commandList) {
+		    commandList.add(Integer.toString(commandList.size() + 1) + ". " + userInput);
+		  }
+
+	public String run(directory currentDir, String[] args) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	  
+}

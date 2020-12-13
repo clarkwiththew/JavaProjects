@@ -1,0 +1,52 @@
+package commands;
+
+import data.*;
+import errorHandler.NonvalidArgumentException;
+import java.io.*;
+import driver.*;
+
+public class LoadJShell implements Command {
+
+  
+  public String run(FileManager fm, String[] args) throws NonvalidArgumentException {
+    if (args.length > 2)
+      throw new NonvalidArgumentException("error, too many arguments for LoadJShell");
+    FileInputStream fis;
+    ObjectInputStream ois;
+    try {
+      fis = new FileInputStream(args[1]);
+    } catch (Exception e) {
+      throw new NonvalidArgumentException("error, something wrong with loading a file");
+    }
+    try {
+      ois = new ObjectInputStream(fis);
+    } catch (Exception e) {
+      throw new NonvalidArgumentException("error, something wrong with loading an object");
+    }
+    JFileManager loaded = null;
+    try {
+      loaded = (JFileManager) ois.readObject();
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    try {
+      if (loaded != null) {
+        System.out.println("previous session info is loaded now.");
+        fm.setCurrent(loaded.getCurrent());
+
+        fm.setDirectoryStack(loaded.getDirectoryStack());
+
+        fm.updateInputHistory(loaded.getInputHistory());
+      } else {
+        System.out.println("It's null...");
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return "";
+  }
+
+
+}

@@ -1,0 +1,88 @@
+package commands;
+
+import data.*;
+import errorHandler.*;
+
+/**
+ * The Class ls, lists contents in a directory or file.
+ */
+public class Ls implements Command {
+
+  /**
+   * Run.
+   *
+   * @param fm the fileManager
+   * @param args The path of the file or directory
+   * @return Contents of the directory or the contents of the file or a suitable error message
+   */
+  public String run(JFileManager fm, String[] args) throws NonvalidArgumentException {
+
+    String output = "";
+    Directory currentDir = fm.getCurrent();   
+
+    // no path is given, ls current path
+    if (args.length == 1) {
+      output += currentDir.getDirKey();
+      output += currentDir.getFileKey();
+    }
+    
+    
+    else {      
+      // Determine whether the given path is file path or directory path
+      
+      for (int i= 1; i < args.length; i++) {
+        // If the given path is directory path,
+        if (fm.validDirectoryPath(args[i])) {
+          try {
+            // get the directory object from the path
+            Directory outputDir = fm.getDirectoryFromDirPath(args[i]);
+            // prints out the items inside the directory
+            output += args[i] + ":" + "\n";
+            output += outputDir.getFileKey();
+            output += outputDir.getDirKey();
+          } catch (Exception e) {
+            throw new NonvalidArgumentException("error, nonvalid input, could not find the path");
+          }
+
+        }
+        else if (fm.validFilePath(args[i])) {
+          try {
+            // get the file object from the path
+            File outputFile = fm.getFileFromFilePath(args[i]);
+            // prints the name of the file object
+            output += outputFile.getFileName();
+          } catch (Exception e) {
+            throw new NonvalidArgumentException("error, nonvalid input, could not find the path");
+          }
+
+        }
+        else {
+          throw new NonvalidArgumentException("error, nonvalid input, could not find the path");
+        }
+      }
+      
+      
+      
+      
+//      try {
+//        for (int i = 1; i < args.length; i++) {
+//          newDir = fm.pathToCurrent(currentDir, args[i]);
+//          if (fm.checkPathToFile(args[i], currentDir)) {
+//            output+= args[i]+"\n";
+//            continue;
+//          }
+//          else {
+//          output += args[i] + ":" + "\n";
+//          output += newDir.getFileKey();
+//          output += newDir.getDirKey();
+//          }
+//        }
+//        }
+//       catch (Exception e) {
+//        throw new NonvalidArgumentException("you have a nonvalid input, could not find the path");
+//      }
+    }
+    return output;
+  }
+
+}

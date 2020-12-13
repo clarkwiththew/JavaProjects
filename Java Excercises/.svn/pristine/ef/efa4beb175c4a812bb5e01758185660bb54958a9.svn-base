@@ -1,0 +1,9 @@
+Class name: Screen
+
+Parent Class: UserOutput
+
+Subclasses:
+
+Responsibilities: Display laptop information to user
+
+Collaborators: VGA, HDMI

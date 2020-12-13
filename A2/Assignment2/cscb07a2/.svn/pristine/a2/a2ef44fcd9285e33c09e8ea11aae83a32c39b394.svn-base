@@ -1,0 +1,88 @@
+package commands;
+
+//import java.util.Arrays;
+import driver.*;
+
+public class echo implements command {
+
+
+  /**
+   * Run.
+   *
+   * @param fm the fileManager
+   * @param args The string to output
+   * @return The string to output
+   */
+  public String run(fileManager fm, String[] args) {
+    String fileName = "";
+    String output = "";
+    String holderString="";
+    int quoteCount=0;
+    for (int i = 1; i < args.length; i++) {
+      holderString+=args[i]+" ";
+      quoteCount += args[i].split("\"", -1).length - 1;      
+    }
+    if (quoteCount!=2) {
+      return "you do not have 2 double quotes surrounding text input"+ "\n";
+    }
+    holderString.trim();
+    int firstQuote = holderString.indexOf("\"");
+    int secQuote = holderString.lastIndexOf("\"");
+
+    output = holderString.substring(firstQuote+1,secQuote);
+    int indexB = holderString.indexOf(">>",secQuote+1);
+    int indexA=-1;
+    //if >> does not exist
+    if(indexB==-1) {
+       indexA = holderString.indexOf(">",secQuote+1);
+    }
+
+    //both indexA and indexB are nonexistent
+    if(indexA==-1&&indexB==-1) {
+      //print to screen
+      return output+"\n";
+    }
+    else if(indexA!=-1&&indexB!=-1) {
+      //print to screen
+      return "you have both > and >> in your input"+"\n";
+    }
+    //indexA is nonexistent, we have >>
+    else if(indexB!=-1) {
+    fileName=holderString.substring(indexB+2);
+    fileName=fileName.trim();
+        if (fm.getCurrent().containsFileKey(fileName)) {
+          // file exists, append
+          System.out.println(">> and file exists");
+          output=fm.getCurrent().getFile(fileName).getFileContents()+"\n"+output;
+          fm.getCurrent().getFile(fileName).setContents(output);
+      } else {
+        System.out.println(">> and not file exists");
+
+          // file does not exist, make it
+          file newFile = new file(fileName, fm.getCurrent());
+          newFile.setContents(output);
+          fm.getCurrent().setFile(fileName, newFile);
+      }
+    }
+    //indexB is nonexistent, we have >
+    else {
+      fileName=holderString.substring(indexA+1);
+      fileName=fileName.trim();
+      if (fm.getCurrent().containsFileKey(fileName)) {
+        System.out.println("> and file exists");
+
+        // file exists, overwrite
+        fm.getCurrent().getFile(fileName).setContents(output);
+    } else {
+      System.out.println("> and not file exists");
+
+        // file does not exist, make it
+        file newFile = new file(fileName, fm.getCurrent());
+        newFile.setContents(output);
+        fm.getCurrent().setFile(fileName, newFile);
+    }
+    }
+    return "";
+  }
+
+}

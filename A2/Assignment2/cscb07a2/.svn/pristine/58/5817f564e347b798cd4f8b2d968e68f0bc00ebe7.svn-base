@@ -1,0 +1,115 @@
+package commands;
+
+import data.Directory;
+import data.JFileManager;
+// import com.sun.org.apache.xerces.internal.impl.dv.ValidatedInfo;
+// import com.sun.jdi.event.ThreadDeathEvent;
+// import java.util.Arrays;
+import driver.*;
+import errorHandler.NonvalidArgumentException;
+import errorHandler.Validator;
+
+public class Echo implements Command {
+
+
+  /**
+   * Output the string that is input
+   *
+   * @param fm the fileManager where the command is executed
+   * @param args The string to output
+   * @return The string to output
+   */
+
+  private void makeFile(String fileName, String output, JFileManager fm) {
+    if (fm.getCurrent().containsFileKey(fileName)) {
+      // file exists, append
+
+      fm.getCurrent().getFile(fileName).setContents(output);
+    } else {
+
+      // file does not exist, make it
+      file newFile = new file(fileName, fm.getCurrent());
+      newFile.setContents(output);
+      fm.getCurrent().setFile(fileName, newFile);
+    }
+  }
+
+  private String functionParser(String output, int indexOverwrite, int indexAppend, String fileName,
+      JFileManager fm, Directory currentDir, String holderString) {
+    String[]quoteArray=holderString.split("\"");
+    if (indexOverwrite == -1 && indexAppend == -1) {
+      // print to screen
+      if(quoteArray.length!=1) {
+        return "invalid input\n";
+      }
+      return output + "\n";
+    } else if (indexOverwrite != -1 && indexAppend != -1) {
+      // print to screen
+      return "you have both > and >> in your input" + "\n";
+    }
+    // indexOverwrite is nonexistent, we have >>
+    if(quoteArray[1].charAt(0)!='>') {return "you do not have a valid input";}
+    else if (indexAppend != -1) {
+      fileName = holderString.substring(indexAppend + 2);
+      fileName = fileName.trim();
+      // this is bad. need input parser.
+      if (Validator.checkFileName(fileName)) {
+        return "you have a nonvalid file name \n";
+      }
+      output = currentDir.getFile(fileName).getFileContents() + "\n" + output;
+      makeFile(fileName, output, fm);
+    }
+    // indexAppend is nonexistent, we have >
+    else if (indexOverwrite != -1) {
+      fileName = holderString.substring(indexOverwrite + 1);
+      fileName = fileName.trim();
+      if(holderString.charAt(indexOverwrite-1)!='\"'&&holderString.charAt(indexOverwrite-2)=='\"') {
+        return "invalid input after quote";
+      }
+      if (Validator.checkFileName(fileName)) {
+        return "you have a nonvalid file name \n";
+      }
+      makeFile(fileName, output, fm);
+    } else {
+      return "you do not have a valid command input for echo";
+    }
+    return "";
+  }
+
+
+
+  public String run(JFileManager fm, String[] args) throws NonvalidArgumentException {
+    String fileName = "";
+    String output = "";
+    Directory currentDir;
+    String holderString = "";
+    for (int i = 1; i < args.length; i++) {
+      holderString += args[i] + " ";
+    }
+    if (!Validator.checkQuote(args)&&args[1].charAt(0)!='\"') {
+      return "you do not have 2 quotes surrounding input";
+    }
+    // we want to check if the user typed quotes in quotes, which is illegal
+    holderString.trim();
+    int firstQuote = holderString.indexOf("\"");
+    int secQuote = holderString.indexOf("\"", firstQuote + 1);
+    output = holderString.substring(firstQuote + 1, secQuote);
+    int indexAppend = holderString.indexOf(">>", secQuote + 1);
+    int indexOverwrite = -1;
+    // if >> does not exist
+    if (indexAppend == -1) {
+      indexOverwrite = holderString.indexOf(">", secQuote + 1);
+    }
+    // if fileName is path
+    if (fileName.contains("/")) {
+      String[] pathHolder = fileName.split("/");
+      String newFile = pathHolder[pathHolder.length - 1];
+      // get the fileName
+      newFile = newFile.trim();
+       currentDir = fm.pathToCurrent(fm.getCurrent(), fileName);
+    } else {
+       currentDir = fm.getCurrent();
+    }
+    return functionParser(output, indexOverwrite, indexAppend, fileName, fm, currentDir, holderString);
+  }
+}

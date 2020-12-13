@@ -1,0 +1,214 @@
+package driver;
+
+import java.util.HashMap;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class directory.
+ */
+public class directory {
+
+  /** The parent dir. */
+  private directory parentDir;
+  
+  /** The dir name. */
+  private String dirName;
+  
+  /** The full dir path. */
+  private String fullDirPath;
+
+  /** The directory map. */
+  private HashMap<String, directory> directoryMap = new HashMap<String, directory>();
+  
+  /** The file map. */
+  private HashMap<String, file> fileMap = new HashMap<String, file>();
+
+  /**
+   * Gets the parent dir.
+   *
+   * @return the parent dir
+   */
+  public directory getParentDir() {
+    return parentDir;
+  }
+
+  /**
+   * Gets the dir name.
+   *
+   * @return the dir name
+   */
+  public String getDirName() {
+    return this.dirName;
+  }
+
+  /**
+   * Instantiates a new directory.
+   *
+   * @param nameToAdd the name to add
+   */
+  public directory(String nameToAdd) {
+    this.dirName = nameToAdd;
+  }
+
+
+  /**
+   * Instantiates a new directory.
+   *
+   * @param nameToAdd the name to add
+   * @param parentToAdd the parent to add
+   */
+  public directory(String nameToAdd, directory parentToAdd) {
+    this.dirName = nameToAdd;
+    this.parentDir = parentToAdd;
+  }
+  
+  /**
+   * Contains file key.
+   *
+   * @param keyName the key name
+   * @return true, if successful
+   */
+  //checks if a directory has a file
+  public boolean containsFileKey(String keyName) {
+    if (fileMap.containsKey(keyName)) {    return true;}
+    return false;
+  }
+  
+  /**
+   * Contains directory key.
+   *
+   * @param keyName the key name
+   * @return true, if successful
+   */
+  //checks if a directory has a subdirectory
+  public boolean containsDirectoryKey(String keyName) {
+    if (directoryMap.containsKey(keyName)) {    return true;}
+    return false;
+  }
+  
+  /**
+   * Gets the dir key.
+   *
+   * @return the dir key
+   */
+  public String getDirKey() {
+    String out = "";
+    for (String key : directoryMap.keySet()) {
+      out += key + "\n";
+    }
+    return out;
+  }
+
+  /**
+   * Gets the file key.
+   *
+   * @return the file key
+   */
+  public String getFileKey() {
+    String out = "";
+    for (String key : fileMap.keySet()) {
+      out += key + "\n";
+    }
+    return out;
+  }
+
+//  public void setDirectory(String nameOfDir, directory dirToAdd) throws nonvalidArgumentException {
+//    if (directoryMap.containsKey(nameOfDir)) {
+//      throw new nonvalidArgumentException("directory already exists");
+//    }
+//    directoryMap.put(nameOfDir, dirToAdd);
+//    dirToAdd.parentDir = this;
+//  }
+
+/**
+ * Sets the directory.
+ *
+ * @param nameOfDir the name of dir
+ * @param dirToAdd the dir to add
+ */
+public void setDirectory(String nameOfDir, directory dirToAdd) {
+directoryMap.put(nameOfDir, dirToAdd);
+dirToAdd.parentDir = this;
+}
+  
+//  public directory getDirectory(String name) throws nonvalidArgumentException {
+//    if (directoryMap.containsKey(name)) {
+//      return directoryMap.get(name);
+//    } else {
+//      throw new nonvalidArgumentException("Directory does not exist");
+//    }
+/**
+ * Gets the directory.
+ *
+ * @param name the name
+ * @return the directory
+ */
+//  }
+  public directory getDirectory(String name) {
+      return directoryMap.get(name);
+    
+  }
+
+//  public void setFile(String nameOfFile, file fileToAdd) throws nonvalidArgumentException {
+//    if (fileMap.containsKey(nameOfFile)) {
+//      throw new nonvalidArgumentException("file already exists");
+//    } else {
+//      fileMap.put(nameOfFile, fileToAdd);
+//    }
+/**
+ * Sets the file.
+ *
+ * @param nameOfFile the name of file
+ * @param fileToAdd the file to add
+ */
+//  }
+public void setFile(String nameOfFile, file fileToAdd)  {
+  fileMap.put(nameOfFile, fileToAdd);
+}
+
+  /**
+   * Retrieve full path.
+   *
+   * @return the string
+   */
+  public String retrieveFullPath() {
+    String path = "";
+    directory temp;
+    
+    temp = this;
+    
+    while (temp != null) {
+      
+      if (temp.getDirName() == "/") {
+        path = temp.getDirName() + path;
+      } else {
+        path = temp.getDirName() + path;
+        path = "/" + path;
+      }
+     
+      temp = temp.getParentDir();      
+    }
+    
+    return path;
+  }
+
+//
+//  public file getFile(String nameOfFile) throws nonvalidArgumentException {
+//    if (fileMap.containsKey(nameOfFile)) {
+//      return fileMap.get(nameOfFile);
+//    } else {
+//      throw new nonvalidArgumentException("file not found");
+//    }
+/**
+ * Gets the file.
+ *
+ * @param nameOfFile the name of file
+ * @return the file
+ */
+//  }
+  public file getFile(String nameOfFile) {
+      return fileMap.get(nameOfFile);
+  }
+
+
+}

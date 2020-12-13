@@ -1,0 +1,34 @@
+package commands;
+
+import data.JFileManager;
+import driver.*;
+
+/**
+ * The Class pwd.
+ */
+public class Pwd implements Command {
+
+
+  /**
+   * Print the current working directory (including the whole path)
+   *
+   * @param fm the fileManager where the command is executed
+   * @return Whole path of current working directory (including itself)
+   */
+  public String run(JFileManager fm, String[] args) {
+
+    // if (args.length != 1) {
+    // throw new driver.nonvalidArgumentException("non valid number of arguments");
+    // }
+
+    if (fm.getCurrent().getDirName() == "/") {
+      return "/\n";
+    } else {
+      return fm.getCurrentFullPath();
+    }
+
+
+  }
+
+
+}

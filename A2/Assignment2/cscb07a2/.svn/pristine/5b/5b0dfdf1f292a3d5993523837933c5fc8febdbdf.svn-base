@@ -1,0 +1,35 @@
+package commands;
+
+import data.*;
+import errorHandler.NonvalidArgumentException;
+
+/**
+ * The Class pwd
+ */
+public class Pwd implements Command {
+
+
+  /**
+   * Print the current working directory (including the whole path)
+   *
+   * @param fm the fileManager where the command is executed
+   * @return Whole path of current working directory (including itself)
+   * @throws NonvalidArgumentException
+   */
+  public String run(JFileManager fm, String[] args) throws NonvalidArgumentException {
+
+    if (args.length != 1) {
+      throw new NonvalidArgumentException("error with arguments, no arguments expected");
+    }
+
+    if (fm.getCurrent().getDirName() == "/") {
+      return "/\n";
+    } else {
+      return fm.getCurrentFullPath() + "\n";
+    }
+
+
+  }
+
+
+}

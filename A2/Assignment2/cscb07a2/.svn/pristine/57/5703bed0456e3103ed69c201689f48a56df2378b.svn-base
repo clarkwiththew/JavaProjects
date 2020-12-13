@@ -1,0 +1,47 @@
+package commands;
+
+import data.JFileManager;
+import errorHandler.NonvalidArgumentException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+
+public class Curl implements Command{
+  @Override
+  public String run(JFileManager fm, String[] args) throws NonvalidArgumentException {
+    if (args.length!=2) {
+      throw new NonvalidArgumentException("error with arguments, only 2 arguments expected");
+    }
+    
+    String output="";
+    String siteName=args[1];
+    String newFile = siteName.substring(siteName.lastIndexOf('/') + 1);
+    URL urlFile = null;
+    try {
+        urlFile = new URL(siteName);
+    } catch (Exception e) {
+        System.out.println("invalid input, URL has problems");
+    }
+    InputStreamReader stream = null;
+    try {
+        stream = new InputStreamReader(urlFile.openStream());
+    } catch (Exception e) {
+        System.out.println("invalid input, URL not valid");
+    }
+    BufferedReader in = new BufferedReader(stream);
+    String contents = "";
+    String line;
+    try {
+        while ((line = in.readLine()) != null) {
+            contents += line + "\n";
+        }
+    } catch (Exception e) {
+            System.out.println("invalid input, URL has problems");
+    }
+    newFile = newFile.replace(".", "");
+    fm.makeFile(newFile, contents, fm.getCurrent());
+    return output;
+}
+}
+
+

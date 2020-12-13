@@ -1,0 +1,38 @@
+package commands;
+
+import driver.*;
+
+
+public class cat implements command{
+
+
+	/**
+	 * Run.
+	 *
+	 * @param fm the fileManager
+	 * @param args A list of file names which will be output
+	 * @return A string with the contents of the File(s) which are concatenated
+	 * 		   in the shell
+	 */
+	public String run(fileManager fm, String[] args){
+		String output="";
+		//full path
+		if(args[1].indexOf("/")==0) {
+		  
+		}
+		for (int i=1; i<args.length;i++) {
+		  //need to check if its a file or not, otherwise give error
+		  try {
+			output += fm.getCurrent().getFile(args[i]).getFileContents();
+
+			output+="\n\n\n";
+		  }
+		  catch(Exception e){
+		    return "this is not a valid file\n";
+		  }
+		}
+		
+		return output;
+	}
+
+}

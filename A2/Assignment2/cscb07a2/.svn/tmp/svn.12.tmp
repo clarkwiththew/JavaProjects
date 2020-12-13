@@ -1,0 +1,48 @@
+package commands;
+
+import driver.*;
+
+public class cd implements command {
+
+  /**
+   * Change	directory to DIR, which may	be relative	to the	current	directory 
+   * or	may	be a full path.	
+   * 
+   * As	with Unix, .. means	a parent directory and/a. means the	current	
+   * directory. The directory must be /, the forward
+   * slash.	The	foot of the	file system	is	a single slash:	/.		
+   *
+   * @param fm the fileManager where the command is executed 
+   * @param args The name of the directory which will be our new path
+   * @return A string of a new line, meaning no errors were encountered
+   */
+  public String run(fileManager fm, String[] args) {
+    if (args.length!=2) {
+      return "nonvalid arguments";
+    }
+    String holder=args[1].trim();
+    directory currentDir = fm.getCurrent();
+    if (holder.equals("..")) {
+      fm.setCurrent(currentDir.getParentDir());
+    }
+//      try {
+//        fm.setCurrent(fm.getCurrent().getDirectory(args[1]));
+//        //TODO:check if path is relative or not 
+//        fm.setPath(fm.getPath() + args[1]);
+//      } 
+//      catch (nonvalidArgumentException e) {
+//        return "non valid path given";
+//      }
+    else {
+    	try {
+   		currentDir = fm.pathToCurrent(currentDir, args[1]);
+   		fm.setCurrent(currentDir);
+		} catch (Exception e) {
+			return "invalid path";
+		}
+  }
+  
+  return "";
+}
+
+}

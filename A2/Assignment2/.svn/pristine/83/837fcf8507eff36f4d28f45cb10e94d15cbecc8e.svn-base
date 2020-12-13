@@ -1,0 +1,14 @@
+User Stories								            		Time estimate		Status
+a) As a user, I can exit a program whenever I wish to			            		1 hour
+b) As a user, I can make directories					            		2 hours
+c) As a user, I can change directories				 	            		3 hours
+d) As a user, I can view the contents of a given directory 		            		2 hours
+e) As a user, I can view the path of the current directory 		            		4 hours
+f) As a user, I can save my current working directory to the stack		            	3 hours
+g) As a user, I can view the previous directory from the stack 		        		2 days
+h) As a user, I can view the history of commands I have used		            		2 days
+i) As a user, I can view the contents of one or more given file by user	    			2 hours
+j) As a user, I can append or overwrite user input text to a given file	    			2 hours
+k) As a user, I can input commands						                3 hours
+l) As a user, I can view the documentation for a command			        	2 hours
+m) As a user, I can input commands with spaces between arguments		        	1 hour

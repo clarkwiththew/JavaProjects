@@ -1,0 +1,7 @@
+package commands;
+
+public interface command {
+	
+	public String run(driver.fileManager fm, String[] args);
+	
+}

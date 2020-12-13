@@ -1,0 +1,52 @@
+
+package commands;
+
+import java.util.ArrayList;
+import errorHandler.*;
+import data.*;
+/**
+ * @author Junheng Wang
+ */
+public class History implements Command {
+
+  private ArrayList<String> hist;
+  private Object splitInput;
+
+  /**
+   * This command will print out recent commands, one command per line
+   *
+   * @param fm the fileManager where the command is executed
+   * @param splitInput Total amount of previous commands wanted to be displayed, or all the previous
+   *        commands if no number is input
+   * @return List of the last x previous commands given
+   */
+  public String run(FileManager fm, String[] splitInput) throws NonvalidArgumentException {
+    hist = fm.getInputHistory();
+    String output = "";
+    int beginningIdx = 0;
+    //if the input has a length greater than 1, but has no redirections
+    if (splitInput.length != 1 && (!splitInput[1].contains(">"))) {
+      throw new NonvalidArgumentException("error with arguments, invalid arguments given");
+    }
+//    if (splitInput.length > 2)
+//      throw new NonvalidArgumentException("error with arguments, only 1 argument expected");
+    else if (splitInput.length == 2 && !(splitInput[1].contains(">"))) {
+      try {
+        int argInteger = Integer.parseInt(splitInput[1]);
+        beginningIdx = Math.max(hist.size() - argInteger, 0);
+      } catch (Exception e) {
+        throw new NonvalidArgumentException("error, not a valid argument");
+      }
+    }
+    for (int i = beginningIdx; i < hist.size(); i++)
+      output += (i + 1) + ". " + hist.get(i) + "\n";
+    for(int i=1; i<splitInput.length;i++) {
+      if (splitInput[i].contains(">")){
+        fm.redirection(fm, splitInput, output);
+        return"";
+      }
+    }
+    return output;
+  }
+
+}

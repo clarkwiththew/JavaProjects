@@ -1,0 +1,7 @@
+Class name: file
+Parent class: dataPackage
+
+Responsibilities: 
+* stores data or any information as an object in OS
+* contains file attributes
+

@@ -1,0 +1,9 @@
+Class name: Mouse
+
+Parent Class: UserInput
+
+Subclasses:
+
+Responsibilities: Track user's mouse movement
+
+Collaborators:

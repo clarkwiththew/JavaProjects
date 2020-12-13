@@ -1,0 +1,26 @@
+package commands;
+
+import driver.fileManager;
+
+public class echo implements command{
+
+
+	public String run(fileManager fm, String[] args) {
+		String output="";
+		for(int i=1;i<args.length;i++) {
+
+			if(args[i].equals(">>")) {
+				fm.getCurrent().getFile(args[i+1]).appendContents(output);
+				return "";
+			}
+			
+			if(args[i].equals(">")) {
+				fm.getCurrent().getFile(args[i+1]).setContents(output);
+				return "";
+			}
+			output+=args[i]+" ";
+		}
+		return output+"\n";
+	}
+
+}

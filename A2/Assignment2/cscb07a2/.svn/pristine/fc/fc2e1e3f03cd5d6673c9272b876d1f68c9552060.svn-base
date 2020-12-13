@@ -1,0 +1,29 @@
+package commands;
+
+import driver.*;
+
+
+public class cat implements command{
+
+
+	/**
+	 * Run.
+	 *
+	 * @param fm the fm
+	 * @param args the args
+	 * @return the string
+	 */
+	public String run(fileManager fm, String[] args){
+		String output="";
+		for (int i=1; i<args.length;i++) {
+		  //need to check if its a file or not, otherwise give error
+			output += fm.getCurrent().getFile(args[i]).getFileContents();
+
+			output+="\n\n\n";
+			
+		}
+		
+		return output;
+	}
+
+}

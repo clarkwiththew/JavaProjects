@@ -1,0 +1,60 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import commands.Ls;
+import data.FileManager;
+import errorHandler.NonvalidArgumentException;
+import org.junit.Before;
+
+/**
+ * 
+ * @author Ethan Anada
+ *
+ */
+
+public class LsTest {
+	
+	Ls ls= new Ls();
+        
+	private MockFileManager MockFM;
+  
+  /**
+   * LsTest command set up
+   */
+
+  @Before
+  public void setUp() {
+    // Initialize the MFS
+    MockFM = new MockFileManager();
+  }
+
+  /**
+   * Ls command set up
+   */
+  
+  @Test
+  /**
+   * 
+   * Nonvalid input
+   */
+  public void nonvalidinput() throws NonvalidArgumentException {
+	  try {
+	    String []inputArrayString= {"ls", "test1"};
+	    String actualOutput = ls.run(MockFM,inputArrayString);
+	    String expectedOutput="you have a nonvalid input, could not find the path";
+	    assertEquals(actualOutput, expectedOutput);
+	  } catch (NonvalidArgumentException e) {
+			 assertEquals(e.getMessage(), "you have a nonvalid input, could not find the path");
+	  }
+  }
+  
+  @Test
+  public void noparam() throws NonvalidArgumentException {
+	  
+  }
+  
+  
+
+}

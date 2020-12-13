@@ -1,0 +1,116 @@
+package data;
+
+import java.util.ArrayList;
+import java.util.Stack;
+import errorHandler.NonvalidArgumentException;
+// TODO: Auto-generated Javadoc
+
+/**
+ * The Interface FileManager.
+ *
+ * @author Junheng Wang
+ */
+public interface FileManager {
+  
+  /**
+   * Gets the current.
+   *
+   * @return the current
+   */
+  public Directory getCurrent();
+
+  /**
+   * Sets the current.
+   *
+   * @param newCurrent the new current
+   */
+  public void setCurrent(Directory newCurrent);
+
+  /**
+   * Gets the path.
+   *
+   * @return the path
+   */
+  public String getPath();
+
+  /**
+   * Sets the path.
+   *
+   * @param newPath the new path
+   */
+  public void setPath(String newPath);
+
+  /**
+   * Gets the current full path.
+   *
+   * @return the current full path
+   */
+  public String getCurrentFullPath();
+
+  /**
+   * Push stack.
+   *
+   * @param dir the dir
+   */
+  public void pushStack(Directory dir);
+
+  /**
+   * Pop stack.
+   *
+   * @return the directory
+   */
+  public Directory popStack();
+
+  /**
+   * Path to current.
+   *
+   * @param currentdir the currentdir
+   * @param path the path
+   * @return the directory
+   * @throws NonvalidArgumentException the nonvalid argument exception
+   */
+  public Directory pathToCurrent(Directory currentdir, String path)
+      throws NonvalidArgumentException;
+
+  /**
+   * Current to root.
+   *
+   * @param currentdir the currentdir
+   * @return the directory
+   */
+  public Directory currentToRoot(Directory currentdir);
+
+  /**
+   * Save current to stack.
+   */
+  public void saveCurrentToStack();
+
+  /**
+   * Check path to file.
+   *
+   * @param path the path
+   * @param currentDir the current dir
+   * @return true, if successful
+   */
+  public boolean checkPathToFile(String path, Directory currentDir);
+
+  public void redirection(FileManager fm, String[] args, String output) throws NonvalidArgumentException;
+
+  public ArrayList<String> getInputHistory();
+
+  public void makeFile(String newFile, String contents, Directory current) throws NonvalidArgumentException;
+
+  public void setDirectoryStack(Stack<Directory> directoryStack);
+
+  public void mergeInputHistory(ArrayList<String> inputHistory);
+
+  /**
+   * Redirection.
+   *
+   * @param fm the fm
+   * @param args the args
+   * @param outputString the output string
+   */
+  //public void redirection(FileManager fm, String[] args, String outputString);
+
+}

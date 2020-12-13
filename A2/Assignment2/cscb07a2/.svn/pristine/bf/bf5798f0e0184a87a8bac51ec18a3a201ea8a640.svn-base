@@ -1,0 +1,17 @@
+package commands;
+
+import data.JFileManager;
+import data.FileManager;
+import errorHandler.NonvalidArgumentException;
+/**
+ * @author Junheng Wang
+ */
+public class Cp implements Command{
+
+  @Override
+  public String run(FileManager fm, String[] args) throws NonvalidArgumentException {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+}

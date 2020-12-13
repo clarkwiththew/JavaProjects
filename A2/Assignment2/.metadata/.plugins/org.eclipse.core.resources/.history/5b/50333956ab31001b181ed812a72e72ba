@@ -1,0 +1,196 @@
+package commands;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import data.Directory;
+import data.File;
+import data.FileManager;
+import data.JFileManager;
+import errorHandler.NonvalidArgumentException;
+import errorHandler.Validator;
+import data.Directory;
+
+/**
+ * @author Junheng Wang
+ */
+
+public class Search implements Command {
+
+//  private String recurseFile(FileManager fm, Directory dir, String fileName) {
+//    String outputString = "";
+//    // for (Map.Entry<String, File> t : dir.getFileHashMap().entrySet())
+//    // recurseDirectory(t.getValue());
+//
+//    if (dir.containsFileKey(fileName)) {
+//      // outputString += fm.getCurrentFullPath(dir,fm.getCurrent()) + "/"+fileName + "\n";
+//      outputString += fm.getCurrentFullPath(dir) + "/" + fileName + "\n";
+//
+//    }
+//    for (Map.Entry<String, Directory> d : dir.getDirectoryHashMap().entrySet()) {
+//      outputString += recurseFile(fm, d.getValue(), fileName);
+//    }
+//    return outputString;
+//  }
+//
+//  private String recurseDirectory(FileManager fm, Directory dir, String dirName) throws NonvalidArgumentException {
+//    String outputString = "";
+//    // for (Map.Entry<String, File> t : dir.getFileHashMap().entrySet())
+//    // recurseDirectory(t.getValue());
+//    
+//    if (dir.containsDirectoryKey(dirName)) {
+//      // outputString += fm.getCurrentFullPath(dir,fm.getCurrent()) + "/"+dirName + "\n";
+//      outputString += fm.getCurrentFullPath(dir) + "/" + dirName + "\n";
+//    }
+//    //iterator hashmap.
+//    for (Map.Entry<String, Directory> d : dir.getDirectoryHashMap().entrySet()) {
+//      outputString += recurseDirectory(fm, d.getValue(), dirName);
+//    }
+//    return outputString;
+//    
+//  }
+  
+private String recurseFile(FileManager fm, Directory dir, String fileName) {
+String outputString = "";
+// for (Map.Entry<String, File> t : dir.getFileHashMap().entrySet())
+// recurseDirectory(t.getValue());
+
+if (dir.containsFileKey(fileName)) {
+  // outputString += fm.getCurrentFullPath(dir,fm.getCurrent()) + "/"+fileName + "\n";
+  outputString += fm.getCurrentFullPath(dir) + "/" + fileName + "\n";
+
+}
+for (Map.Entry<String, Directory> d : dir.getDirectoryHashMap().entrySet()) {
+  outputString += recurseFile(fm, d.getValue(), fileName);
+}
+return outputString;
+}
+
+private String recurseDirectory(FileManager fm, Directory dir, String dirName) throws NonvalidArgumentException {
+String outputString = "";
+if(fm.checkPathToDir(dir,dirName)) {
+HashMap<String, Directory> hm =  dir.getDirectoryHashMap();
+Iterator hmIterator = hm.entrySet().iterator(); 
+if (dir.containsDirectoryKey(dirName)) {
+  outputString += fm.getCurrentFullPath(dir) + "/" + dirName + "\n";
+}
+while (hmIterator.hasNext()) { 
+  Map.Entry mapElement = (Map.Entry)hmIterator.next(); 
+  Directory directory=(Directory)mapElement.getValue();
+  outputString += recurseDirectory(fm, directory, dirName);
+} 
+return outputString;
+}
+else {
+  System.out.println(outputString);
+
+System.out.println("wrong input");
+return "";
+}
+}
+
+  private int searchHelper(String[] args, int len, int fileFlag, int dirFlag)
+      throws NonvalidArgumentException {
+    for (int i = 1; i < len; i++) {
+      if (args[i].equals("-type")) {
+        if (Validator.isEqual(i, 1)) {
+          throw new NonvalidArgumentException(
+              "incorrect format with search inputs, no paths given");
+        }
+        if (i + 3 < len) {
+          if (!args[i + 2].equals("-name")) {
+            throw new NonvalidArgumentException("incorrect format with search inputs: -name");
+          }
+          if (args[i + 1].equals("f")) {
+            fileFlag = 1;
+          } else if (args[i + 1].equals("d")) {
+            dirFlag = 1;
+          } else {
+            throw new NonvalidArgumentException(
+                "incorrect format with search inputs: -type d or f");
+          }
+        } else {
+          throw new NonvalidArgumentException("incorrect format with search inputs");
+        }
+      }
+    }
+    // check if object's Flag was set
+    if (dirFlag == 0 && fileFlag == 0) {
+      throw new NonvalidArgumentException("need to contain: -type f or d ");
+    }
+    if (fileFlag == 1) {
+      return 1;
+    } else if (dirFlag == 1) {
+      return 2;
+    }
+    return 0;
+  }
+  
+  private String runSearch(FileManager fm, String[] args) throws NonvalidArgumentException{
+    String output = "";
+    int dirFlag = 0;
+    int fileFlag = 0;
+    String objectName = fm.doubleQuotetoString(args);
+    int len = args.length;
+    // check for correct inputs
+    int flag = searchHelper(args, len, fileFlag, dirFlag);
+    // check for if files and directories containing filename
+    Directory currentDir = null;
+    for (int i = 1; i < len; i++) {
+
+      if (args[i].equals("-type")) {
+        break;
+      }
+      currentDir = fm.pathToCurrent(fm.getCurrent(), args[i]);
+      if (Validator.isEqual(flag, 2)) {
+//        if(!fm.checkPathToDir(currentDir,objectName)) {
+//          System.out.println(output);
+//          throw new NonvalidArgumentException("one of the given path is not correct.1");
+//        }
+//        try {
+        output += recurseDirectory(fm, currentDir, objectName);
+//        }
+//        catch (Exception e) {
+//          System.out.println(output);
+//          throw new NonvalidArgumentException("one of the given path is not correct.");
+//        }
+      } else if (Validator.isEqual(flag, 1)) {
+        if(!fm.checkPathToFile(objectName, currentDir)) {
+          System.out.println(output);
+          throw new NonvalidArgumentException("one of the given path is not correct.");
+        }
+        try {
+        output += recurseFile(fm, currentDir, objectName);
+        }
+          catch (Exception e) {
+            System.out.println(output);
+            throw new NonvalidArgumentException("one of the given path is not correct.");
+          }
+
+      } else {
+        throw new NonvalidArgumentException("invalid arguments in search");
+      }
+      // recurse through all subdirs of currentDir to see if there is an object with this name
+    }
+    if(output.isBlank()) {
+      throw new NonvalidArgumentException("no such file or directory");
+    }
+    return output;
+  }
+  @Override
+  public String run(FileManager fm, String[] args) throws NonvalidArgumentException {
+    String output="";
+    if (fm.redirectionChecker(args) == 1) {
+      //redirFlag = 1;
+      String outString = fm.formatRedirect(args);
+      outString = outString.trim();
+      String[] holderString = outString.split("\\s+");
+       output = runSearch(fm, args);
+      fm.redirection(fm, args, output);
+      return "";
+    }
+    output=runSearch(fm, args);
+    
+    return output;
+  }
+}

@@ -1,0 +1,6 @@
+Class name: dataPackage
+Subclasses: file, directory
+
+Responsibilities: 
+* contains data and may link to other dataPackages
+

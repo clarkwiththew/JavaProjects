@@ -1,0 +1,8 @@
+Class name: directory
+Parent class: dataPackage
+
+Responsibilities:
+* stores files and directories
+* contains directory attributes
+* performs basic operations on directory
+

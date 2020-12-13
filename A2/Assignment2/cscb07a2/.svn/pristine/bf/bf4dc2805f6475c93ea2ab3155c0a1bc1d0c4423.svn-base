@@ -1,0 +1,48 @@
+package commands;
+
+import java.util.Map;
+import data.*;
+import errorHandler.NonvalidArgumentException;
+
+public class Rm implements Command {
+
+  @Override
+  public String run(FileManager fm, String[] args) throws NonvalidArgumentException {
+    Directory currentDir = fm.getCurrent();
+    Directory DirtoRemove;
+    
+    if (args.length > 2)
+      throw new NonvalidArgumentException("error, too many arguments for rm command");
+    
+    if (args[1] == ".." || args[1] == "." || args[1].contains("..") || args[1].contains("."))
+      throw new NonvalidArgumentException("error, invalid DIR path");
+    
+    if (args[1].contains(currentDir.getDirName()))
+      throw new NonvalidArgumentException("error, invalid DIR path");
+
+    try {
+      DirtoRemove = fm.pathToCurrent(currentDir, args[1]);
+    } catch (Exception e) {
+      throw new NonvalidArgumentException("error, DIR path is not valid for rm command");
+    }
+//    // if the directory we want to remove has sub-directories,
+//    if (!DirtoRemove.getDirectoryHashMap().isEmpty()) {
+//      for (Map.Entry<String, Directory> d : DirtoRemove.getDirectoryHashMap().entrySet())
+//        DirtoRemove.
+//    }
+    
+    String[] splitPath = args[1].split("/");
+    String DirToRemoveName = splitPath[args[1].length() - 1];
+    
+    Directory ParentOfDirtoRemove = DirtoRemove.getParentDir();
+    
+    if (ParentOfDirtoRemove.containsDirectoryKey(DirToRemoveName))
+      ParentOfDirtoRemove.removeDirectory(DirToRemoveName);
+    else {
+      throw new NonvalidArgumentException("something wrong with removing a directory in rm");
+    }    
+    
+    return "";
+  }
+
+}

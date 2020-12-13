@@ -1,0 +1,54 @@
+package commands;
+
+
+//import commons.lang.StringUtils;
+
+import driver. * ;
+
+public class mkdir implements command {
+
+  public String run(fileManager fm, String[] args) {
+    directory currentDir = fm.getCurrent();
+    if (args.length != 3) {
+
+      return "error, you do not have 2 directories as arguments";
+    }
+    else {
+      if (args[1].chars().filter(num -> num == '/').count() == 0) {
+        try {
+          currentDir.setDirectory(args[1], currentDir);
+        } catch(Exception e) {
+          return "Error coulnd't create dir1";
+        }
+      }
+      else {
+    	  String arg1 = args[1].substring(0, args[1].lastIndexOf("/"));
+          String arg1DirName = args[1].substring(args[1].lastIndexOf("/"), args[1].length());
+        try {
+          fm.pathToCurrent(arg1).setDirectory(arg1DirName, fm.pathToCurrent(arg1));
+        }
+        catch(Exception e) {
+          return "Error coulnd't create dir1, path dont exist";
+        }
+      }
+      if (args[2].chars().filter(num -> num == '/').count() == 0) {
+        try {
+          currentDir.setDirectory(args[2], currentDir);
+        } catch(Exception e) {
+          return "Error coulnd't create dir2";
+        }
+      }
+      else {
+    	  String arg2 = args[2].substring(0, args[2].lastIndexOf("/"));
+          String arg2DirName = args[2].substring(args[2].lastIndexOf("/"), args[2].length());
+        try {
+          fm.pathToCurrent(arg2DirName).setDirectory(arg2DirName, fm.pathToCurrent(arg2));
+        }
+        catch(Exception e) {
+          return "Error coulnd't create dir2";
+        }
+      }
+    }
+    return "\n";
+  }
+}

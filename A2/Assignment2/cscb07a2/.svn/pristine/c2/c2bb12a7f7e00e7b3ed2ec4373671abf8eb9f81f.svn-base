@@ -1,0 +1,9 @@
+package commands;
+
+//import driver.*;
+
+public interface command {
+    
+    public String run(driver.fileManager fm, String[] args);
+    
+}

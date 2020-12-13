@@ -1,0 +1,67 @@
+
+
+
+package commands;
+import java.util.Arrays;
+import driver.*;
+import driver.nonvalidArgumentException;
+
+public class echo implements command {
+
+
+  public String run(fileManager fm, String[] args){
+    String fileName="";
+    String output = "";
+    for (int i = 1; i < args.length; i++) {
+      // check args[i] is real or not
+      
+      if (args[i].equals(">>")) {
+        //if we don't have an empty file name to add to
+        if (i!=args.length-1) {
+        String[] fileNameArr=Arrays.copyOfRange(args, i, args.length);
+        //convert to string
+        for(String element: fileNameArr)
+          { 
+          fileName += element + " ";
+          }
+        if (fm.getCurrent().containsfileKey(fileName)) {
+          //file exists, append
+          fm.getCurrent().getFile(fileName).appendContents(output);
+          return "\n";
+        }
+        else {
+          //file does not exist, make it
+          file newFile = new file(fileName,fm.getCurrent());
+          newFile.appendContents(output);
+          fm.getCurrent().setFile(fileName, newFile);
+        }
+        }
+      }
+
+      if (args[i].equals(">")) {
+        if (i!=args.length-1) {
+         String[] fileNameArr=Arrays.copyOfRange(args, i, args.length);
+         for(String element: fileNameArr)
+           
+         { 
+         fileName += element + " ";
+         }
+         if (fm.getCurrent().containsfileKey(fileName)) {
+           fm.getCurrent().getFile(args[i + 1]).setContents(output);
+           return "\n";
+           
+         }
+         else {
+           file newFile = new file(fileName, fm.getCurrent());
+           newFile.setContents(output);
+           fm.getCurrent().setFile(fileName, newFile);
+         }
+
+        }
+      }
+      output += args[i] + " ";
+    }
+    return "\n";
+  }
+
+}

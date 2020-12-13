@@ -1,0 +1,12 @@
+
+public class nonvalidPathException extends Exception {
+
+  public nonvalidPathException() {
+    super();
+  }
+
+  public nonvalidPathException(String message) {
+    super(message);
+  }
+
+}

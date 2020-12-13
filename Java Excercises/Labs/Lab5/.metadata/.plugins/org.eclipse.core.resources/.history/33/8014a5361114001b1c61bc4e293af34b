@@ -1,0 +1,14 @@
+Class name: shell
+
+Responsibilities:
+* allows user to input text
+* performs file and directory commands given by user
+* displays contents as standard output
+* provides an operating systems services to users
+
+Collaborators:
+*file
+*directory
+*path
+*command
+

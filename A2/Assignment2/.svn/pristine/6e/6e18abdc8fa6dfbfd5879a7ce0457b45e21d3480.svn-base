@@ -1,0 +1,9 @@
+Class name: exit
+
+
+Responsibilities:
+* quit current shell
+* returns the status of last command that is executed
+
+Collaborators:
+* shell

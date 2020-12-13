@@ -1,0 +1,38 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import commands.Search;
+import commands.SaveJShell;
+import data.FileManager;
+import errorHandler.NonvalidArgumentException;
+import org.junit.Before;
+
+/**
+ * 
+ * @author Ethan Anada
+ *
+ */
+
+public class SearchTest {
+	
+	Search search = new Search();
+	private MockFileManager MockFM;
+	
+	/**
+	   * 
+	   *  Search command set up
+	   */
+	
+	@Before
+	public void setUp() {
+		MockFM = new MockFileManager();
+	}
+
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}

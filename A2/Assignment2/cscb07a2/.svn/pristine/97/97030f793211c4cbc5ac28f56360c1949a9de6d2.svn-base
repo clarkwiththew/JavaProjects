@@ -1,0 +1,29 @@
+package commands;
+
+import driver.*;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class pwd.
+ */
+public class pwd implements command {
+
+
+  /**
+   * Run.
+   *
+   * @param fm the fm
+   * @param args the args
+   * @return the string
+   */
+  public String run(fileManager fm, String[] args) {
+
+    // if (args.length != 1) {
+    // throw new driver.nonvalidArgumentException("non valid number of arguments");
+    // }
+    return fm.getCurrentFullPath();
+
+  }
+
+
+}

@@ -1,0 +1,9 @@
+Class name: HDMI
+
+Parent Class: 
+
+Subclasses:
+
+Responsibilities: Allow user to connect to a screen, projector etc. and display to it
+
+Collaborators: Screen

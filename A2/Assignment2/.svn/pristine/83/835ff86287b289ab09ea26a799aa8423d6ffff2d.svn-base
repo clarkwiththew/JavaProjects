@@ -1,0 +1,97 @@
+/**
+ * 
+ */
+package commands;
+
+import java.util.HashMap; // import the HashMap class
+import driver.fileManager;
+
+
+public class man implements command {
+
+  private HashMap<String, String> cmdManual;
+
+  public man() {
+    cmdManual = initializeCmdManual();
+  }
+
+  public String run(fileManager fm, String[] splitInput) {
+
+    String outputString = "";
+
+    for (int i = 1; i < splitInput.length; i++) {
+
+      if (cmdManual.containsKey(splitInput[i])) {
+        outputString += cmdManual.get(splitInput[i]);
+      } else {
+        return "Invalid Command Argument.\n";
+      }
+      
+    }
+
+    return outputString;
+
+  }
+
+  private String commandDescriptionFormatting(String cmd, String doc, String synopsis) {
+    String output = "";
+
+    output += "\nNAME\n\t\t" + cmd + "\n";
+    output += "SYNOPSIS\n\t\t" + synopsis + "\n";
+    output += "DESCRIPTION\n\t\t" + doc + "\n\n";
+
+    return output;
+  }
+
+
+  private HashMap<String, String> initializeCmdManual() {
+
+    HashMap<String, String> cmdMan = new HashMap<String, String>();
+
+    cmdMan.put("exit", commandDescriptionFormatting("exit", "Quit the program", "exit"));
+    cmdMan.put("mkdir", commandDescriptionFormatting("mkdir",
+        "Create the DIRECTORY(ies), if they do not already exist.", "mkdir DIR1 DIR2"));
+    cmdMan.put("cd",
+        commandDescriptionFormatting("cd",
+            "Change the shell working directory.\n\t\t" + "Change the current directory to DIR.",
+            "cd DIR"));
+    cmdMan.put("ls",
+        commandDescriptionFormatting("ls", "List directory contents.", "ls [PATH ...]"));
+
+    cmdMan.put("pwd",
+        commandDescriptionFormatting("pwd", "Print name of current working directory.", "pwd"));
+
+    cmdMan.put("pushd",
+        commandDescriptionFormatting("pushd",
+            "Saves the current working directory by pushing onto directory stack.\n\t\t"
+                + "Then changes the current working directory to DIR.",
+            "pushd DIR"));
+
+    cmdMan.put("popd", commandDescriptionFormatting("popd",
+        "Remove the top entry from the directory stack, and cd into it.", "popd"));
+
+    cmdMan.put("history",
+        commandDescriptionFormatting("history",
+            "Print out recent commands.\n\t\t"
+                + "Truncates the output by specifying a number after the command.",
+            "history [number]"));
+
+    cmdMan.put("cat",
+        commandDescriptionFormatting("cat",
+            "Display the contents of FILE1 and other files concatenated in the shell.",
+            "cat FILE1 [FILE2 ...]"));
+
+    cmdMan.put("echo",
+        commandDescriptionFormatting("echo",
+            "If OUTFILE is not provided, print STRING on the shell.\n\t\t"
+                + "Otherwise, put STRING into file OUTFILE.",
+            "echo STRING [> OUTFILE]\n\t\techo STRING >> OUTFILE"));
+
+    cmdMan.put("man", commandDescriptionFormatting("man", "Print documentation for CMD (s).",
+        "man CMD [CMD2 ...]"));
+
+    return cmdMan;
+  }
+
+}
+

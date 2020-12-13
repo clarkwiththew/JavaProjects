@@ -1,0 +1,14 @@
+package commands;
+
+import data.JFileManager;
+import errorHandler.NonvalidArgumentException;
+
+public class LoadJShell implements Command{
+
+  @Override
+  public String run(JFileManager fm, String[] args) throws NonvalidArgumentException {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+}

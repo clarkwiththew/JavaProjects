@@ -1,0 +1,21 @@
+package commands;
+
+import driver.fileManager;
+import driver.nonvalidArgumentException;
+
+public class exit implements command {
+
+  public String run(fileManager fm, String[] args) {
+    if (args.length == 1) {
+      System.exit(0);
+    }
+    // else {
+    // throw new driver.nonvalidArgumentException("error with arguments");
+    // }
+
+    return "";
+  }
+
+
+}
+

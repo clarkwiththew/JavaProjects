@@ -1,0 +1,10 @@
+package errorHandler;
+
+@SuppressWarnings("serial")
+public abstract class CommandException extends Exception {
+  public CommandException(String message) {
+    super(message);
+  }
+}
+
+

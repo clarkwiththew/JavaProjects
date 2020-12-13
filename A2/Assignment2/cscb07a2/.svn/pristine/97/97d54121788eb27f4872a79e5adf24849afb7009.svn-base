@@ -1,0 +1,29 @@
+package test;
+
+import static org.junit.Assert.*
+;
+
+import org.junit.Test;
+
+import org.junit.Before;
+
+public class HistoryTest {
+	
+	private MockFileManager fm;
+	private commands.History history = new commands.History();
+	
+	@Before
+	public void setUp() {
+		fm = new MockFileManager();
+		fm.history.add("command1");
+		fm.history.add("command2");
+		fm.history.add("command3");
+	}
+	
+
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}

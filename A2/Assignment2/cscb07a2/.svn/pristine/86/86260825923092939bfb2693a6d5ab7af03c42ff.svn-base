@@ -1,0 +1,101 @@
+package test;
+
+import java.util.ArrayList;
+import java.util.Stack;
+
+import data.Directory;
+import data.File;
+import data.FileManager;
+import errorHandler.NonvalidArgumentException;
+
+
+public class MockFileManager implements FileManager {
+	
+	public java.util.HashMap<String, String> files;
+	public java.util.HashMap<String, Directory> directories;
+	public ArrayList<String> history;
+	public java.util.Stack<String> stack;
+	
+	//public String currDir;
+	
+	
+	public String fullCurrDirPath;
+//	public Directory root;
+//	public Directory current;
+//	public Stack<Directory> directoryStack;
+//	public static ArrayList<String> inputHistory; // will be used for serialization
+	
+	
+	/**
+	 * Initializes the attributes
+	 */
+	
+	  public MockFileManager() {
+	    directories = new java.util.HashMap<String, Directory>();
+	    directories.put("", new data.Directory(""));
+	    files = new java.util.HashMap<String, String>();
+	    history = new ArrayList<String>();
+	    stack = new java.util.Stack<String>();
+	    fullCurrDirPath = "";
+	  }
+	
+	
+	@Override
+	public Directory getCurrent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void setCurrent(Directory newCurrent) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public String getPath() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void setPath(String newPath) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public String getCurrentFullPath() {
+		return fullCurrDirPath;
+	}
+	
+	
+	@Override
+	public void pushStack(Directory dir) {
+		
+	}
+	@Override
+	public Directory popStack() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Directory pathToCurrent(Directory currentdir, String path) throws NonvalidArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Directory currentToRoot(Directory currentdir) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void saveCurrentToStack() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public boolean checkPathToFile(String path, Directory currentDir) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	
+
+}

@@ -1,0 +1,252 @@
+package driver;
+
+import java.util.Stack;
+
+
+/**
+ * 
+ * File Manager where our commands are executed
+ *
+ */
+
+public class fileManager {
+  private static fileManager fm = null;
+  private String fullCurrDirPath;
+  private directory root;
+  private directory current;
+  private Stack<directory> directoryStack;
+  /**
+   * 
+   */
+
+  private fileManager() {
+    root = new directory("/", null); // the parent directory of root should be null
+    current = root; // when the program first runs, current location should be root
+    directoryStack = new Stack<directory>();
+  }
+
+  public static fileManager createFileManager() {
+    if(fm==null) {
+      fm=new fileManager();
+    }
+    
+    return fm;    
+  }
+  
+  /**
+   * Gets the current directory
+   */
+
+  public directory getCurrent() {
+    return this.current;
+  }
+
+  /**
+   * Sets the input directory as the new current directory
+   */
+
+  public void setCurrent(directory newCurrent) {
+    this.current = newCurrent;
+  }
+
+  // gets the file at a path
+  // to be fixed
+  // should return a file, but have it void for now to not give errors
+
+  /**
+   * Get the full path of the current directory
+   */
+
+  public String getPath() {
+    return this.fullCurrDirPath;
+  }
+
+  /**
+   * Sets the input path as our current directory path
+   */
+
+  public void setPath(String newPath) {
+    this.fullCurrDirPath = newPath;
+  }
+
+  /**
+   * Gets the current full path of the directory we are in
+   * 
+   * @return String
+   */
+
+  public String getCurrentFullPath() {
+    String path = current.retrieveFullPath();
+    return path + '\n';
+  }
+
+  /**
+   * Pushes a directory to the stack of directories
+   * 
+   * @param directory to push
+   * @return The path of the directory stack
+   */
+
+  public void pushStack(directory dir) {
+    directoryStack.push(dir);
+  }
+
+  /**
+   * Get the directory path that is at the top of the stack
+   * 
+   * @return The directory at the of the stack
+   */
+
+  public directory popStack() {
+    directory tmp = directoryStack.pop();
+    System.out.println("Directory popped from stack is " + tmp.getDirName());
+    return tmp;
+  }
+
+  /**
+   * Path to current directory
+   * 
+   * @param Current directory
+   * @param path
+   * @return Path to current directory
+   */
+//giveit a path, it will return dir at the path
+  public directory pathToCurrent(directory currentdir, String path)
+      throws nonvalidArgumentException {
+    // check for absolute path
+
+    if (path.length() == 1) {
+      if (path.substring(0, 1).equals(".")) {
+        return currentdir;
+      }
+      if (path.substring(0, 1).equals("/")) {
+        // make current path root
+        currentdir = currentToRoot(currentdir);
+        return currentdir;
+      }
+    }
+
+
+    if (path.substring(0, 1).equals("/")) {
+      // make current path root
+      currentdir = currentToRoot(currentdir);
+      // get rid of the first"/" in the path string
+      path = path.substring(1, path.length());
+    }
+
+    if (path.length() == 2) {
+      if (path.substring(0, 2).equals("..")) {
+        currentdir = currentdir.getParentDir();
+        return currentdir;
+      }
+
+    }
+
+
+    // break down path to dirs
+    String[] pathStrings = path.split("/");
+    // for (int i = 0; i < pathStrings.length; i++) {
+    // System.out.println(pathStrings[i]);
+    // }
+
+    // loop through each dir
+    for (int i = 0; i < pathStrings.length; i++) {
+
+      if (pathStrings[i].equals("..")) {
+        currentdir = currentdir.getParentDir();
+        continue;
+      }
+
+      if (pathStrings[i].equals(".")) {
+        continue;
+      }
+
+      if (currentdir.containsDirectoryKey(pathStrings[i])) {
+        currentdir = currentdir.getDirectory(pathStrings[i]);
+        // System.out.println(currentdir.getDirName());
+
+      } else {
+        throw new nonvalidArgumentException("path doesnt exist");
+      }
+    }
+    return currentdir;
+  }
+
+
+  /**
+   * Current path to root
+   * 
+   * @param Current directory
+   * @return Current directory
+   */
+
+  public directory currentToRoot(directory currentdir) {
+    while (currentdir.getParentDir() != null) {
+      currentdir = currentdir.getParentDir();
+    }
+    return currentdir;
+
+  }
+
+  /**
+   * Save current working directory to directoryStack for pushd command
+   */
+  public void saveCurrentToStack() {
+    directoryStack.push(this.getCurrent());
+  }
+
+
+  /**
+   * given a path, return whether it is a file at the end of that path as a boolean
+   * 
+   * @param Path
+   * @param Current Directory
+   * @return boolean value of if the file is at the end
+   */
+
+  public boolean checkPathToFile(String path, directory currentDir) {
+    // check if the path contains a /
+    // whole path before file
+    // String pathToFile = path.substring(0, path.lastIndexOf("/")+1);
+    // file name
+    // String fileName = path.substring(path.lastIndexOf("/")+1, path.length());
+    String[] pathArray = path.split("/");
+    // full path
+    if (path.charAt(0) == '/') {
+      currentDir = root;
+      for (int i = 0; i < pathArray.length; i++) {
+        // if i is not equal to length-1 and it is a directory
+        if (pathArray[i].equals("..")) {
+          currentDir = currentDir.getDirectory(pathArray[i - 1]);
+        } else if (pathArray[i].equals(".")) {
+          continue;
+        } else if (currentDir.containsDirectoryKey(pathArray[i]) && i != pathArray.length - 1) {
+          currentDir = currentDir.getDirectory(pathArray[i]);
+        } else if (current.containsFileKey(pathArray[i]) && i == pathArray.length - 1) {
+          // you have found that the file exists
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+    // not full path
+    else {
+      for (int i = 0; i < pathArray.length; i++) {
+        if (currentDir.containsDirectoryKey(pathArray[i]) && i != pathArray.length - 1) {
+          currentDir = currentDir.getDirectory(pathArray[i]);
+        }
+        // check whether the last element is a file
+        else if (current.containsFileKey(pathArray[i]) && i == pathArray.length - 1) {
+          // you have found that the file exists
+          return true;
+        }
+        // file is not a file nor a subdirectory
+        else {
+          return false;
+        }
+      }
+    }
+    return false;
+  }
+}

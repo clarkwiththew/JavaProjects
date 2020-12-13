@@ -1,0 +1,28 @@
+package commands;
+
+import driver.*;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class pwd.
+ */
+public class pwd implements command {
+
+
+  /**
+   * Run.
+   *
+   * @param fm the fileManager
+   * @return Whole path of current working directory (including itself)
+   */
+  public String run(fileManager fm, String[] args) {
+
+    // if (args.length != 1) {
+    // throw new driver.nonvalidArgumentException("non valid number of arguments");
+    // }
+    return fm.getCurrentFullPath();
+
+  }
+
+
+}

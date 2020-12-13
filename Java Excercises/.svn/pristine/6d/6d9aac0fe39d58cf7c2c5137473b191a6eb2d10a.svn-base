@@ -1,0 +1,9 @@
+Class name: Trackpad
+
+Parent Class: UserInput
+
+Subclasses:
+
+Responsibilities: Track the users finger movement
+
+Collaborators: 

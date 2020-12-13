@@ -1,0 +1,55 @@
+package data;
+
+import java.util.ArrayList;
+import java.util.Stack;
+import errorHandler.NonvalidArgumentException;
+
+public interface FileManager<E> {
+  public Directory getCurrent();
+
+  public void setCurrent(Directory newCurrent);
+
+  public String getPath();
+
+  public void setPath(String newPath);
+  
+  public void addInputHistory(String userInput);
+  
+  public ArrayList<String> getInputHistory();
+  
+  public void updateInputHistory(ArrayList<E> previous_history);
+  
+  public Stack<Directory> getDirectoryStack();
+  
+  public void setDirectoryStack(Stack<Directory> new_dirStack);
+  
+  public void mergeInputHistory(ArrayList<String> input_history);
+
+  public String getCurrentFullPath(Directory currentDir);
+
+  public void pushStack(Directory dir);
+
+  public Directory popStack();
+
+  public Directory pathToCurrent(Directory currentdir, String path)
+      throws NonvalidArgumentException;
+
+  public Directory currentToRoot(Directory currentdir);
+
+  public void saveCurrentToStack();
+
+  public boolean checkPathToFile(String path, Directory currentDir);
+  
+  public void makeFile(String fileName, String output, Directory currentDir)
+      throws NonvalidArgumentException;
+  
+  public void redirection(FileManager<?> fm, String args[], String output)
+      throws NonvalidArgumentException;
+
+  public int redirectionChecker(String[] args);
+
+  public String formatRedirect(String[] args);
+  
+  public Directory getRoot();
+  public String doubleQuotetoString(String[] args) throws NonvalidArgumentException;
+}

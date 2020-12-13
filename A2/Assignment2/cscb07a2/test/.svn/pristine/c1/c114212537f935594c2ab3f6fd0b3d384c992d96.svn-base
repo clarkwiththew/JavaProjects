@@ -1,0 +1,47 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import commands.Tree;
+import commands.SaveJShell;
+import commands.Search;
+import data.FileManager;
+import errorHandler.NonvalidArgumentException;
+import org.junit.Before;
+
+/**
+ * 
+ * @author Ethan Anada
+ *
+ */
+
+public class TreeTest {
+	
+	Tree tree = new Tree();
+	private MockFileManager MockFM;
+	
+	/**
+	   * 
+	   *  Tree command set up
+	   */
+	
+	@Before
+	public void setUp() {
+		MockFM = new MockFileManager();
+	}
+
+	@Test
+	public void NoInput() throws NonvalidArgumentException{
+		 try {
+			  String []inputArrayString= {"tree", "test"};
+			  String actualOutput = tree.run(MockFM, inputArrayString);
+			  String expectedOutput= "error with arguments, only 1 argument expected";
+			  assertEquals(actualOutput, expectedOutput);
+			  fail();
+		  } catch (NonvalidArgumentException e) {
+				 assertEquals(e.getMessage(), "error with arguments, only 1 argument expected");
+		  }
+	}
+
+}

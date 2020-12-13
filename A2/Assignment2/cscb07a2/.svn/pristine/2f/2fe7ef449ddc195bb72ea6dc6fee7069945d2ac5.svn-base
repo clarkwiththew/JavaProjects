@@ -1,0 +1,20 @@
+package test;
+
+import static org.junit.Assert.*;
+
+
+import org.junit.Test;
+import org.junit.Before;
+
+public class EchoTest {
+	
+	private MockFileManager fm;
+	private commands.Echo echo = new commands.Echo();
+	  
+
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}

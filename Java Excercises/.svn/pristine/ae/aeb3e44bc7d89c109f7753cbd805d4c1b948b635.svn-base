@@ -1,0 +1,137 @@
+package lab2;
+import java.io.BufferedReader; 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader; 
+import java.util.*;
+
+public class lab2 {
+	public static void main(String[] args) {
+
+		// Task 2: explore matrix making with task2_file
+		runTask2();
+
+		// Task 3: get matrix from task3_file 
+		double [][] task3Matrix = getTask3Matrix();
+
+		// Task 4: calculate average of all elements in task3Matrix
+		double average = getAverage(task3Matrix);
+		
+		//get right format by adding newline
+		System.out.print("\n");
+		System.out.println(average);
+	}
+	
+	// Use this method to explore matrix printing in task2 using "task2_file" 
+	// and filling out the matrix variable in task3 using "task3_file"
+	private static void runTask2()
+	{
+		// Task 1 (Scanner)
+			// read input file name from commandline (ie. task2_file)
+		try {
+			String fileName;
+		Scanner in = new Scanner(System.in);
+		System.out.println("Enter the name of input task 2: ");
+		fileName = in.nextLine();
+		FileInputStream fStream = new FileInputStream(fileName);
+		// Task 2: (BufferedReader, FileReader, InputStreamReader) 
+		// read "task_2_file" file and print each row of the file (hint: refer to CfilteringDriver.java )
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(fStream));
+
+		String row;
+
+		while ((row = br.readLine()) != null) {
+
+				System.out.println("\n"+"This line is: " + row);
+
+			}
+
+		// close the file
+		fStream.close();
+		//in.close();
+}
+		
+		catch (IOException e) {
+
+			System.err.print(e.getMessage());
+		}
+
+	}
+
+	private static double[][] getTask3Matrix()
+	{
+		double [][] matrix = new double[4][5];
+		
+		// Task 1 (Scanner): 
+			// read input file name from commandline (ie. task3_file)
+
+		try {
+		String fileName;
+		Scanner in = new Scanner(System.in);
+		System.out.println("Enter the name of input task 3: ");
+		fileName = in.nextLine();
+		FileInputStream fStream = new FileInputStream(fileName);
+		// Task 3: (BufferedReader, FileReader, InputStreamReader) 	
+		// read "task_3_file" and fill out "matrix" array (hint: refer to CfilteringDriver.java )
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(fStream));
+
+
+		String row;
+
+		int rowan=0;
+		while ((row = br.readLine()) != null) {
+
+				System.out.println("\n"+"This line is: " + row);
+				String allNumbers[] = row.split(" ");
+				int col = 0;
+				
+
+				for (String singleNumber : allNumbers) {
+					
+					int r=Integer.parseInt(singleNumber);  
+
+					matrix[rowan][col] = r;
+					
+					col = col + 1;
+				}
+				rowan = rowan + 1;
+			}
+
+
+		// close the file
+		fStream.close();
+		in.close();
+}
+		
+		catch (IOException e) {
+
+			System.err.print(e.getMessage());
+		}
+		
+
+
+		// return matrix array
+		return matrix;
+	}
+	
+	// use this method to calculate average for task4
+	private static double getAverage(double [][] matrix) {
+		// Task 4: loop through matrix and calculate the average of all elements (hint: use 2 nested for loops)
+
+		double total = 0;
+		int numElements = (matrix.length)*(matrix[0].length);
+		double average = 0;
+		for(int i=0;i<matrix.length;i++) {
+			for(int j=0;j<matrix[0].length;j++) {
+				total = total + matrix[i][j];
+			}
+		}
+
+		average=total/numElements;
+		return average;
+		
+	}
+}
+

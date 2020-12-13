@@ -1,0 +1,9 @@
+Class name: history
+Parent class: command
+
+Responsibilities:
+* lets user view list of previously entered commands 
+
+Collaborators:
+
+

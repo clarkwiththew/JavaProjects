@@ -1,0 +1,32 @@
+package commands;
+
+import data.*;
+
+import errorHandler.NonvalidArgumentException;
+import errorHandler.Validator;
+
+/**
+ * The Class exit.
+ */
+public class Exit implements Command {
+
+  /**
+   * Exit the shell
+   *
+   * @param fm the fileManager where the command is executed
+   * @param args The command to exit
+   * @return Empty string, showing a successful exit
+   * @throws NonvalidArgumentException
+   */
+  public String run(JFileManager fm, String[] args) throws NonvalidArgumentException {
+    if (Validator.checkNumArgs(1, args)) {
+      System.exit(0);
+    } else {
+      throw new NonvalidArgumentException("Error with arguments in exit, only 1 argument expected");
+    }
+    return "";
+  }
+
+
+}
+

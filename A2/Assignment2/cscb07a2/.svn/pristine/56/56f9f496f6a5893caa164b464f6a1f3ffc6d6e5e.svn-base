@@ -1,0 +1,47 @@
+
+package commands;
+
+import driver.*;
+import java.util.ArrayList;
+
+public class history implements command {
+
+  private ArrayList<String> hist;
+
+  public history() {
+    hist = driver.JShell.getInputHistory();
+  }
+
+  /**
+   * This command will print out recent commands, one command per line
+   *
+   * @param fm the fileManager where the command is executed
+   * @param splitInput Total amount of previous commands wanted to be displayed, or all the previous
+   *        commands if no number is input
+   * @return List of the last x previous commands given
+   */
+  public String run(driver.fileManager fm, String[] args) throws nonvalidArgumentException {
+    
+    if (args.length > 2)
+      throw new nonvalidArgumentException("too many arguments");
+
+    String output = "";
+    int beginningIdx = 0;
+
+    if (args.length == 2) {
+      try {
+        int argInteger = Integer.parseInt(args[1]);
+        beginningIdx = Math.max(hist.size() - argInteger, 0);
+      } catch (Exception e) {
+        throw new nonvalidArgumentException("Additional argument is not valid");
+      }
+    }
+
+    for (int i = beginningIdx; i < hist.size(); i++)
+      output += (i + 1) + ". " + hist.get(i) + "\n";
+
+    return output;
+
+  }
+
+}

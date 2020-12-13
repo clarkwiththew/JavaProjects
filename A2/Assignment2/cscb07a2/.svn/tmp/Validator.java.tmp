@@ -1,0 +1,49 @@
+package errorHandler;
+
+public class Validator {
+
+  public static boolean checkNumArgs(int argLength, String[] args) {
+    if (args.length == argLength) {
+      return true;
+    }
+    return false;
+  }
+
+  public static boolean checkFileName(String fileName) {
+    if (fileName.matches(".*[ /.!@#$%^&*(){}~|<>?].*")) {// be careful
+      return true;
+    }
+    return false;
+  }
+
+  public static boolean checkQuote(String[] args) {
+    int quoteCount = 0;
+    for (int i = 1; i < args.length; i++) {
+      quoteCount += args[i].split("\"", -1).length - 1;
+
+    }
+    if (quoteCount == 2) {
+      return true;
+    }
+    return false;
+
+  }
+<<<<<<< .mine
+
+  public static boolean isEqual(int a, int b) {
+    if (a == b) {
+      return true;
+    }
+=======
+
+  public static boolean checkFileInputter(String[] args) {
+>>>>>>> .r291
+    return false;
+  }
+<<<<<<< .mine
+
+  // public static boolean
+=======
+
+>>>>>>> .r291
+}

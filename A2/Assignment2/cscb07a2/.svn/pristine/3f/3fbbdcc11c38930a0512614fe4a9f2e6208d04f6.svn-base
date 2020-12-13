@@ -1,0 +1,55 @@
+package commands;
+
+import driver.*;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ls.
+ */
+public class ls implements command {
+
+  /**
+   * Run.
+   *
+   * @param fm the fileManager
+   * @param args The path of the file or directory 
+   * @return Contents of the directory or the contents of the file or a 
+   * 		 suitable error message
+   */
+  public String run(fileManager fm, String[] args) {
+
+    String output = "";
+    // no path is given, ls current path
+    if (args.length == 1) {
+      output += fm.getCurrent().getDirKey() + "\n";
+      output += fm.getCurrent().getFileKey() + "\n";
+    }
+
+    else {
+      // for each path
+      for (int i = 1; i < args.length; i++) {
+        //if current path is a file in the current directory
+        if (fm.getCurrent().containsFileKey(args[i])) {
+          //print the file path with a newline
+          output += args[i]+"\n";
+        }
+        //if current path is a subdirectory in the current directory
+
+        else if (fm.getCurrent().containsDirectoryKey(args[i])) {
+          //print dir path along with its contents
+          output += args[i]+":"+"\n";
+          output += fm.getCurrent().getFileKey() + "\n";
+          output += fm.getCurrent().getDirKey() + "\n";
+          output += "\n";
+
+        }
+        else {
+          return "path not found "+"\n";
+        }
+
+      }
+    }
+    return output;
+  }
+
+}

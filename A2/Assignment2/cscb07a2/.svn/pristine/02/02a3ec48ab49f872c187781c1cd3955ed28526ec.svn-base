@@ -1,0 +1,19 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import org.junit.Before;
+
+public class LsTest {
+	
+	private MockFileManager fs;
+	private commands.Ls ls = new commands.Ls();
+	
+
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}

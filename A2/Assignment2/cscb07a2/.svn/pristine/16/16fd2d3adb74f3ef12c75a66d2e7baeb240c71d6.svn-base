@@ -1,0 +1,101 @@
+package commands;
+
+//import com.sun.jdi.event.ThreadDeathEvent;
+// import java.util.Arrays;
+import driver.*;
+
+public class echo implements command {
+
+
+  /**
+   * Output the string that is input 
+   *
+   * @param fm the fileManager where the command is executed 
+   * @param args The string to output
+   * @return The string to output
+   */
+  public String run(fileManager fm, String[] args) {
+    String fileName = "";
+    String output = "";
+    String holderString = "";
+    int quoteCount = 0;
+    for (int i = 1; i < args.length; i++) {
+      holderString += args[i] + " ";
+      quoteCount += args[i].split("\"", -1).length - 1;
+    }
+    if (quoteCount < 2) {
+      return "you do not have 2 double quotes surrounding text input" + "\n";
+    }
+    // we want to check if the user typed quotes in quotes, which is illegal
+    holderString.trim();
+    int firstQuote = holderString.indexOf("\"");
+    int secQuote = holderString.indexOf("\"", firstQuote + 1);
+    int thirdQuote = holderString.indexOf("\"", secQuote + 1);
+
+    output = holderString.substring(firstQuote + 1, secQuote);
+    int indexAppend = holderString.indexOf(">>", secQuote + 1);
+    int indexOverwrite = -1;
+    // if >> does not exist
+    if (indexAppend == -1) {
+      indexOverwrite = holderString.indexOf(">", secQuote + 1);
+    }
+
+    // both indexOverwriteand indexAppend are nonexistent
+    if (indexOverwrite == -1 && indexAppend == -1) {
+      // print to screen
+      return output + "\n";
+    }
+
+    else if (indexOverwrite != -1 && indexAppend != -1) {
+      // print to screen
+      return "you have both > and >> in your input" + "\n";
+    }
+    // indexOverwriteis nonexistent, we have >>
+    else if (indexAppend != -1) {
+      // if the thirdQuote's index is less than the index of >>, we have input error
+      if (thirdQuote != -1 && thirdQuote < indexAppend) {
+        return "you have more than 2 quotes in your input";
+      }
+      fileName = holderString.substring(indexAppend + 2);
+      fileName = fileName.trim();
+      if (fileName.matches(".*[ /.!@#$%^&*(){}~|<>?].*")) {
+        return "you have a nonvalid file name \n";
+      }
+      if (fm.getCurrent().containsFileKey(fileName)) {
+        // file exists, append
+        output = fm.getCurrent().getFile(fileName).getFileContents() + "\n" + output;
+        fm.getCurrent().getFile(fileName).setContents(output);
+      } else {
+
+        // file does not exist, make it
+        file newFile = new file(fileName, fm.getCurrent());
+        newFile.setContents(output);
+        fm.getCurrent().setFile(fileName, newFile);
+      }
+    }
+    // indexAppend is nonexistent, we have >
+    else {
+      if (thirdQuote != -1 && thirdQuote < indexOverwrite) {
+        return "you have more than 2 quotes in your input";
+      }
+      fileName = holderString.substring(indexOverwrite + 1);
+      fileName = fileName.trim();
+      if (fileName.matches(".*[ /.!@#$%^&*(){}~|<>?].*")) {
+        return "you have a nonvalid file name \n";
+      }
+      if (fm.getCurrent().containsFileKey(fileName)) {
+
+        // file exists, overwrite
+        fm.getCurrent().getFile(fileName).setContents(output);
+      } else {
+
+        // file does not exist, make it
+        file newFile = new file(fileName, fm.getCurrent());
+        newFile.setContents(output);
+        fm.getCurrent().setFile(fileName, newFile);
+      }
+    }
+    return "";
+  }
+
+}

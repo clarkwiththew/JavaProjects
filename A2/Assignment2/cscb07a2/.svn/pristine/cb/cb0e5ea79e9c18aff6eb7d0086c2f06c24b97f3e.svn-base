@@ -1,0 +1,203 @@
+package commands;
+
+import errorHandler.NonvalidArgumentException;
+import errorHandler.Validator;
+import data.*;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Echo.
+ */
+public class Echo implements Command {
+
+  /**
+   * Output the string that is input.
+   *
+   * @param fileName the file name
+   * @param output the output
+   * @param fm the fileManager where the command is executed
+   * @return The string to output
+   */
+
+  private void makeFile(String fileName, String output, Directory currentDir) {
+    if (currentDir.containsFileKey(fileName)) {
+      // file exists, append
+      currentDir.getFile(fileName).setContents(output);
+    } else {
+      // file does not exist, make it
+      File newFile = new File(fileName, currentDir);
+      newFile.setContents(output);
+      currentDir.setFile(fileName, newFile);
+    }
+  }
+
+  /**
+   * Echo helper.
+   *
+   * @param output the output
+   * @param holderString the holder string
+   * @param indexOverwrite the index overwrite
+   * @param indexAppend the index append
+   * @param fileName the file name
+   * @param fm the fm
+   * @param currentDir the current dir
+   * @throws NonvalidArgumentException the nonvalid argument exception
+   */
+  private void echoAppend(String fileName, Directory currentDir, JFileManager fm, String output)
+      throws NonvalidArgumentException {
+    if (fileName.contains("/")) {
+      String[] pathHolder = fileName.split("/");
+      String newFile = pathHolder[pathHolder.length - 1];
+      String argDir = fileName.substring(0, fileName.lastIndexOf("/") + 1);
+      newFile = newFile.trim();
+      // check if it is a path
+      if (fm.validDirectoryPath(argDir)) {
+        // check if is a valid name for file
+        if (Validator.checkFileName(newFile)) {
+          throw new NonvalidArgumentException("error with input, nonvalid file name");
+        }
+        // get the fileName
+        currentDir = fm.getDirectoryFromDirPath(argDir);
+        if (currentDir.containsFileKey(newFile)) {
+          output = currentDir.getFile(newFile).getFileContents() + "\n" + output;
+        }
+        makeFile(newFile, output, currentDir);
+      } else {
+        throw new NonvalidArgumentException("file path not valid");
+      }
+    }
+    // append with relative path
+    else {
+      if (Validator.checkFileName(fileName)) {
+        throw new NonvalidArgumentException("error with input, nonvalid file name");
+      }
+      if (currentDir.containsFileKey(fileName)) {
+        output = currentDir.getFile(fileName).getFileContents() + "\n" + output;
+      }
+      makeFile(fileName, output, currentDir);
+    }
+  }
+
+  private void echoOverwrite(String fileName, JFileManager fm, Directory currentDir,
+      String output) throws NonvalidArgumentException {
+    if (fileName.contains("/")) {
+      String[] pathHolder = fileName.split("/");
+      String newFile = pathHolder[pathHolder.length - 1];
+      String argDir = fileName.substring(0, fileName.lastIndexOf("/") + 1);
+      newFile = newFile.trim();
+      // check if it is a path
+      if (fm.validDirectoryPath(argDir)) {
+        // check if is a valid name for file
+        if (Validator.checkFileName(newFile)) {
+          throw new NonvalidArgumentException("error with input, nonvalid file name");
+        }
+        // get the fileName
+        currentDir = fm.getDirectoryFromDirPath(argDir);
+        makeFile(newFile, output, currentDir);
+      } else {
+        throw new NonvalidArgumentException("file path not valid");
+      }
+    } else {
+      if (Validator.checkFileName(fileName)) {
+        throw new NonvalidArgumentException("error with input, nonvalid file name");
+      }
+      if (currentDir.containsFileKey(fileName)) {
+        output = currentDir.getFile(fileName).getFileContents() + "\n" + output;
+      }
+      makeFile(fileName, output, currentDir);
+    }
+  }
+
+  private void echoHelper(String output, String holderString, int indexOverwrite, int indexAppend,
+      String fileName, JFileManager fm, Directory currentDir) throws NonvalidArgumentException {
+    if (indexOverwrite != -1 && indexAppend != -1) {
+      // print to screen
+      throw new NonvalidArgumentException("error with input, you have too many redirections");
+    }
+    // indexOverwrite is nonexistent, we have >>
+    else if (indexAppend != -1) {
+      fileName = holderString.substring(indexAppend + 2);
+      fileName = fileName.trim();
+      echoAppend(fileName, currentDir, fm, output);
+    }
+    // indexAppend is nonexistent, we have >
+    else if (indexOverwrite != -1) {
+      fileName = holderString.substring(indexOverwrite + 1);
+      fileName = fileName.trim();
+      echoOverwrite(fileName, fm, currentDir, output);
+    }
+  }
+
+  /**
+   * Function parser.
+   *
+   * @param output the output
+   * @param indexOverwrite the index overwrite
+   * @param indexAppend the index append
+   * @param fileName the file name
+   * @param fm the fm
+   * @param currentDir the current dir
+   * @param holderString the holder string
+   * @return the string
+   * @throws NonvalidArgumentException the nonvalid argument exception
+   */
+  private String functionParser(String output, int indexOverwrite, int indexAppend, String fileName,
+      JFileManager fm, Directory currentDir, String holderString) throws NonvalidArgumentException {
+    String[] quoteArray = holderString.split("\"");
+    // output string for echo
+    if (indexOverwrite == -1 && indexAppend == -1) {
+      // if you have invalid inputs, throw error
+      if (!quoteArray[0].isBlank() || !quoteArray[2].isBlank()) {
+        throw new NonvalidArgumentException("error with input, invalid addition");
+      }
+      // print to screen
+      return output + "\n";
+    }
+    echoHelper(output, holderString, indexOverwrite, indexAppend, fileName, fm, currentDir);
+    return "";
+  }
+
+  /**
+   * Run.
+   *
+   * @param fm the fm
+   * @param args the args
+   * @return the string
+   * @throws NonvalidArgumentException the nonvalid argument exception
+   */
+  public String run(JFileManager fm, String[] args) throws NonvalidArgumentException {
+    String fileName = "";
+    String output = "";
+    Directory currentDir;
+    String holderString = "";
+    for (int i = 1; i < args.length; i++) {
+      holderString += args[i] + " ";
+    }
+    if (!Validator.checkQuote(args)) {
+      throw new NonvalidArgumentException("error with input, you need 2 quotes surrounding input");
+    }
+    // we want to check if the user typed quotes in quotes, which is illegal
+    holderString.trim();
+    int firstQuote = holderString.indexOf("\"");
+    int secQuote = holderString.indexOf("\"", firstQuote + 1);
+    output = holderString.substring(firstQuote + 1, secQuote);
+    int indexAppend = holderString.indexOf(">>", secQuote + 1);
+    int indexOverwrite = -1;
+    // if >> does not exist
+    if (indexAppend == -1) {
+      indexOverwrite = holderString.indexOf(">", secQuote + 1);
+    }
+    // if fileName is path
+    if (fileName.contains("/")) {
+      String[] pathHolder = fileName.split("/");
+      String newFile = pathHolder[pathHolder.length - 1];
+      // get the fileName
+      newFile = newFile.trim();
+      currentDir = fm.pathToCurrent(fm.getCurrent(), fileName);
+    } else {
+      currentDir = fm.getCurrent();
+    }
+    return functionParser(output, indexOverwrite, indexAppend, fileName, fm, currentDir,
+        holderString);
+  }
+}

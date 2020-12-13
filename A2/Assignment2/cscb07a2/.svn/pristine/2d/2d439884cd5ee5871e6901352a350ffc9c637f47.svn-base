@@ -1,0 +1,52 @@
+package test;
+
+import static org.junit.Assert.*
+;
+
+import org.junit.Test;
+
+import org.junit.Before;
+
+import errorHandler.NonvalidArgumentException;
+import commands.History;
+
+
+public class HistoryTest {
+	
+	History history=new History();
+	private MockFileManager fm;
+//	private commands.History history = new commands.History();
+	
+	@Before
+	public void setUp() {
+		fm = new MockFileManager();
+		fm.history.add("testcommand1");
+		fm.history.add("testcommand2");
+	}
+	
+
+	@Test
+	public void nonvalidinput() throws NonvalidArgumentException {
+		// When a nonvalid integer is input, an error should be returned
+		
+//		try {
+//		      history.run(fm, "4.20420");
+//		      fail("Input not the cause of the error");
+//		    } catch (NonvalidArgumentException e) {
+//		      assertEquals(e.getMessage(), "error,  invalid parameter\n");
+//		    }
+		String []inputArrayString= {"history", "4.20420"};
+	    String actualOutput = history.run(fm, inputArrayString);
+	    String expectedOutput="error with arguments, invalid arguments given";
+	    assertEquals(actualOutput, expectedOutput);
+	}
+	
+	@Test
+	public void validinput() throws NonvalidArgumentException {
+		String []inputArrayString= {"history", "1"};
+	    String actualOutput = history.run(fm, inputArrayString);
+	    String expectedOutput="testcommand1";
+	    assertEquals(actualOutput, expectedOutput);
+	}
+
+}

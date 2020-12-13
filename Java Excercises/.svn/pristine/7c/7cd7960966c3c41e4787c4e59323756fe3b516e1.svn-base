@@ -1,0 +1,9 @@
+Class name: Keyboard
+
+Parent Class: UserInput
+
+Subclasses:
+
+Responsibilities: Allow user to input text to laptop 
+
+Collaborators:

@@ -1,0 +1,190 @@
+package test;
+
+import java.util.ArrayList;
+import java.util.Stack;
+
+import data.Directory;
+import data.File;
+import data.FileManager;
+import errorHandler.NonvalidArgumentException;
+
+
+public class MockFileManager implements FileManager {
+	
+	public java.util.HashMap<String, String> files;
+	public java.util.HashMap<String, Directory> directories;
+	public ArrayList<String> history;
+	public java.util.Stack<String> stack;
+	public Directory currentDirectory;
+	
+	
+	public String fullCurrDirPath;
+//	public Directory root;
+//	public Directory current;
+//	public Stack<Directory> directoryStack;
+//	public static ArrayList<String> inputHistory; // will be used for serialization
+	
+	
+	/**
+	 * Initializes the attributes
+	 */
+	
+	  public MockFileManager() {
+	    directories = new java.util.HashMap<String, Directory>();
+	    directories.put("", new data.Directory(""));
+	    files = new java.util.HashMap<String, String>();
+	    history = new ArrayList<String>();
+	    stack = new java.util.Stack<String>();
+	    fullCurrDirPath = "";
+	  }
+	
+	
+	@Override
+	public Directory getCurrent() {
+		return currentDirectory;
+	}
+	@Override
+	public void setCurrent(Directory newCurrent) {
+		this.currentDirectory=newCurrent;
+		
+	}
+	@Override
+	public String getPath() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void setPath(String newPath) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public String getCurrentFullPath() {
+		return fullCurrDirPath;
+	}
+	
+	@Override
+	public void pushStack(Directory dir) {
+		
+	}
+	@Override
+	public Directory popStack() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Directory pathToCurrent(Directory currentdir, String path) throws NonvalidArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Directory currentToRoot(Directory currentdir) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void saveCurrentToStack() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public boolean checkPathToFile(String path, Directory currentDir) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+  @Override
+  public void redirection(FileManager fm, String[] args, String output) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  @Override
+  public ArrayList<String> getInputHistory() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+
+  @Override
+  public void makeFile(String newFile, String contents, Directory current)
+      throws NonvalidArgumentException {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  @Override
+  public void setDirectoryStack(Stack<Directory> directoryStack) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  @Override
+  public void mergeInputHistory(ArrayList<String> inputHistory) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  @Override
+  public void addInputHistory(String userInput) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  @Override
+  public void updateInputHistory(ArrayList<String> previous_history) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  @Override
+  public Stack<Directory> getDirectoryStack() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+
+  @Override
+  public String getCurrentFullPath(Directory currentDir) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+
+  @Override
+  public int redirectionChecker(String[] args) {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+
+  @Override
+  public String formatRedirect(String[] args) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+
+  @Override
+  public Directory getRoot() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+
+  @Override
+  public String doubleQuotetoString(String[] args) throws NonvalidArgumentException {
+    // TODO Auto-generated method stub
+    return null;
+  }
+	
+	
+
+}

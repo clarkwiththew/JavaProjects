@@ -1,0 +1,47 @@
+package commands;
+
+import data.Directory;
+import data.JFileManager;
+import driver.*;
+
+/**
+ * The Class ls.
+ */
+public class Ls implements Command {
+
+  /**
+   * Run.
+   *
+   * @param fm the fileManager
+   * @param args The path of the file or directory
+   * @return Contents of the directory or the contents of the file or a suitable error message
+   */
+  public String run(JFileManager fm, String[] args) {
+
+    String output = "";
+    Directory currentDir = fm.getCurrent();
+    // no path is given, ls current path
+    if (args.length == 1) {
+
+      output += currentDir.getDirKey();
+      output += currentDir.getFileKey();
+    }
+
+    else {
+      try {
+        if (fm.checkPathToFile(args[1], currentDir)) {
+          return args[1];
+        }
+        currentDir = fm.pathToCurrent(currentDir, args[1]);
+        output += args[1] + ":" + "\n";
+        output += currentDir.getFileKey();
+        output += currentDir.getDirKey();
+      } catch (Exception e) {
+        return "path not found " + "\n";
+      }
+
+    }
+    return output;
+  }
+
+}

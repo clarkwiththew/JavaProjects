@@ -1,0 +1,182 @@
+package driver;
+
+import java.util.Stack;
+// gave error, so commented this import
+// import sun.jvm.hotspot.memory.FileMapInfo.FileMapHeader;
+
+/**
+ * 
+ * 
+ *
+ */
+
+public class fileManager {
+  private String fullCurrDirPath;
+  private directory root;
+  private directory current;
+  private Stack<directory> directoryStack;
+
+  /**
+   * 
+   */
+  
+  public fileManager() {
+    root = new directory("/", null); // the parent directory of root should be null
+    current = root; // when the program first runs, current location should be root
+    directoryStack = new Stack<directory>();
+  }
+  
+  /**
+   *  
+   */
+
+  public directory getCurrent() {
+    return this.current;
+  }
+
+  /**
+   * 
+   */
+  
+  public void setCurrent(directory newCurrent) {
+    this.current = newCurrent;
+  }
+
+  // gets the file at a path
+  // to be fixed
+  // should return a file, but have it void for now to not give errors
+  
+  /**
+   * 
+   */
+   
+  public String getPath() {
+    return this.fullCurrDirPath;
+  }
+  
+  /**
+   * 
+   */
+  
+  public void setPath(String newPath) {
+    this.fullCurrDirPath = newPath;
+  }
+
+  /**
+   * 
+   */
+  
+  public String getCurrentFullPath() {
+    String path = current.retrieveFullPath();
+    return path + '\n';
+  }
+  
+  /**
+   * Pushes a directory to the stack of directories
+   * 
+   * @return The path of the directory stack
+   */
+  
+  public void pushStack(directory dir) {
+    directoryStack.push(dir);
+  }
+  
+  /**
+   * Get the directory path that is at the top of the stack
+   * 
+   * @return The directory at the of the stack
+   */
+  
+  public directory popStack() {
+    directory tmp = directoryStack.pop();
+    System.out.println("Directory popped from stack is " + tmp.getDirName());
+    return tmp;
+  }
+  
+  /**
+   * 
+   */
+
+  public directory pathToCurrent(directory currentdir, String path)
+      throws nonvalidArgumentException {
+    // check for absolute path
+	
+	
+    if (path.substring(0,1).equals("/")) {
+      // make current path root
+      currentdir = currentToRoot(currentdir);
+      // get rid of the first"/" in the path string
+      path = path.substring(1, path.length());
+    }
+    if (path.length() == 1) {
+        if (path.substring(0,1).equals(".")) {
+        	return currentdir;
+          }
+        if (path.substring(0,1).equals("/")) {
+            // make current path root
+            currentdir = currentToRoot(currentdir);
+            return currentdir;
+        }
+	}
+
+    if (path.length()==2) {
+        if (path.substring(0,2).equals("..")) {
+        	currentdir  = currentdir.getParentDir();
+        	return currentdir;
+          }
+
+    }
+	
+
+    // break down path to dirs
+    String[] pathStrings = path.split("/");
+//    for (int i = 0; i < pathStrings.length; i++) {
+//		System.out.println(pathStrings[i]);
+//	}
+    
+	  // loop through each dir
+	  for (int i = 0; i < pathStrings.length; i++) {
+		  
+		if ( pathStrings[i].equals("..")) {
+			currentdir  = currentdir.getParentDir();
+			continue;
+		}
+	
+        if (pathStrings[i].equals(".")) {
+        	continue;
+	         }
+        
+		if ( currentdir.containsDirectoryKey(pathStrings[i])) {
+			currentdir = currentdir.getDirectory(pathStrings[i]);
+//			System.out.println(currentdir.getDirName());
+			
+		}
+		else {
+			throw new nonvalidArgumentException("path doesnt exist");
+		}
+	}
+	return currentdir;
+	}
+
+  
+  /**
+   * 
+   */
+
+  public directory currentToRoot(directory currentdir) {
+    while (currentdir.getParentDir() != null) {
+      currentdir = currentdir.getParentDir();
+    }
+    return currentdir;
+
+  }
+
+  /**
+   * save current working directory to directoryStack for pushd command
+   */
+  public void saveCurrentToStack() {
+    directoryStack.push(this.getCurrent());
+  }
+
+
+}

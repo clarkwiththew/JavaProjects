@@ -1,0 +1,36 @@
+package test;
+
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+
+import data.JFileManager;
+import errorHandler.NonvalidArgumentException;
+import commands.Cat;
+
+
+public class CatTest {
+	
+	Cat cat = new commands.Cat();
+	private MockFileManager MockFM;
+	
+	
+	/**
+	   * CatTest command setup
+	   * 
+	   * @param none
+	   * @return none
+	   */
+	@Before
+	public void setUp() {
+
+		    }
+	
+	
+	
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}

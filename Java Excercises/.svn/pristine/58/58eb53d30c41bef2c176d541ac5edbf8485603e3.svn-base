@@ -1,0 +1,9 @@
+Class name: UserOutput
+
+Parent Class: 
+
+Subclasses: Screen
+
+Responsibilities: allow the user to interact with laptop via output 
+
+Collaborators: Screen

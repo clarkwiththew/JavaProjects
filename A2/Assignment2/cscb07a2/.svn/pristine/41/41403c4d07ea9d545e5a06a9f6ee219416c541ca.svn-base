@@ -1,0 +1,24 @@
+package commands;
+
+//import driver.nonvalidArgumentException;
+
+// TODO: Auto-generated Javadoc
+// import driver.*;
+import errorHandler.*;
+/**
+ * The Interface command .
+ */
+public interface Command {
+//put filemanager inside another package
+
+  /**
+   * Run.
+   *
+   * @param fm the fileManager where the command is executed
+   * @param args The required parameters for the input command
+   * @return The output of the input command
+   */
+  public String run(data.JFileManager fm, String[] args) throws CommandException;
+  //make a specific exception, command exception. abstract class.
+
+}

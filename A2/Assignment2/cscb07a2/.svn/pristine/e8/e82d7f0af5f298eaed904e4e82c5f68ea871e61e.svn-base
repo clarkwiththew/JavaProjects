@@ -1,0 +1,35 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import org.junit.Before;
+
+import errorHandler.NonvalidArgumentException;
+
+
+
+public class CdTest {
+	
+	private commands.Cd cd = new commands.Cd();
+	private MockFileManager fm; 
+	
+	/**
+	   * The set up method, creates a mockfilesystem with some directories inside
+	   */
+	  @Before
+	  public void setUp() {
+	    // Create a new mock filesystem with a directory named testdir,
+	    // whose parent is the root directory
+	    fm = new MockFileManager();
+	    fm.directories.put("mockdir",
+	        new data.Directory("mockdir", fm.directories.get("")));
+	  }
+	
+	
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}

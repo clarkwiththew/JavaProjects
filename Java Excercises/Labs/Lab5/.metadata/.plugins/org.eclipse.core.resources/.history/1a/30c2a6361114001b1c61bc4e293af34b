@@ -1,0 +1,10 @@
+Class name: cat
+Parent class: command
+
+Responsibilities: 
+*outputs file content to screen
+
+Collaborators:
+*file
+
+

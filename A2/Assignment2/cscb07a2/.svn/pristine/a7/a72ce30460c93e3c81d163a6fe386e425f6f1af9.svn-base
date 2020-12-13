@@ -1,0 +1,34 @@
+package commands;
+
+import data.*;
+import errorHandler.NonvalidArgumentException;
+
+public class Cd implements Command {
+
+  /**
+   * Change directory to DIR, which may be relative to the current directory or may be a full path.
+   * 
+   * As with Unix, .. means a parent directory and/a. means the current directory. The directory
+   * must be /, the forward slash. The foot of the file system is a single slash: /.
+   *
+   * @param fm the fileManager where the command is executed
+   * @param args The name of the directory which will be our new path
+   * @return A string of a new line, meaning no errors were encountered
+   * @throws NonvalidArgumentException 
+   */
+  public String run(JFileManager fm, String[] args) throws NonvalidArgumentException {
+    if (args.length != 2) {
+      throw new NonvalidArgumentException("Error with arguments");
+    }
+    
+    Directory currentDir = fm.getCurrent();
+
+    try {
+      currentDir = fm.pathToCurrent(currentDir, args[1]);
+      fm.setCurrent(currentDir);
+    } catch (Exception e) {
+      throw new NonvalidArgumentException("Error with arguments");
+    }
+    return "";
+  }
+}

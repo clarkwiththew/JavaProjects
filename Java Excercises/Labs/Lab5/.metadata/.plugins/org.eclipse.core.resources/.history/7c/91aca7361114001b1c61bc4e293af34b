@@ -1,0 +1,10 @@
+Class name: mkdir
+Parent class: command
+
+Responsibilities:
+* make a new directory based on user input
+
+
+Collaborators:
+* path
+* directory

@@ -1,0 +1,41 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import commands.Ls;
+import data.FileManager;
+import errorHandler.NonvalidArgumentException;
+import org.junit.Before;
+
+public class LsTest {
+	Ls ls=new Ls();
+        
+        
+  private MockFileManager MockFM;
+  
+
+  @Before
+  public void setUp() {
+    // Initialize the MFS
+    MockFM = new MockFileManager();
+  }
+
+
+  @Test
+  public void test() throws NonvalidArgumentException {
+    String []inputArrayString= {"ls", "test1"};
+    String actualOutput = ls.run(MockFM,inputArrayString);
+    String expectedOutput="";
+    assertEquals(actualOutput, expectedOutput);
+
+  }
+  
+  @Test
+  public void noparam() throws NonvalidArgumentException {
+	  
+  }
+  
+  
+
+}

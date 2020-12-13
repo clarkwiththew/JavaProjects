@@ -1,0 +1,40 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import commands.LoadJShell;
+import commands.SaveJShell;
+import commands.Search;
+import commands.Tree;
+import data.FileManager;
+import errorHandler.NonvalidArgumentException;
+import org.junit.Before;
+
+/**
+ * 
+ * @author Ethan Anada
+ *
+ */
+
+public class LoadJShellTest {
+	
+	LoadJShell loadjshell = new LoadJShell();
+	private MockFileManager MockFM;
+	
+	/**
+	   * 
+	   *  LoadJShell command set up
+	   */
+	
+	@Before
+	public void setUp() {
+		MockFM = new MockFileManager();
+	}
+
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}

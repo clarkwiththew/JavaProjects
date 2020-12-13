@@ -1,0 +1,48 @@
+package commands;
+
+import data.*;
+import errorHandler.NonvalidArgumentException;
+import java.io.*;
+import java.io.File;
+import driver.JShell;
+
+public class SaveJShell implements Command {
+
+  @SuppressWarnings("resource")
+  @Override
+  public String run(FileManager fm, String[] args) throws NonvalidArgumentException {
+    String output = "";
+    if (args.length > 2)
+      throw new NonvalidArgumentException("error, invalid argument for saveJShell");
+    FileOutputStream fos;
+    ObjectOutputStream oos;
+    File f;
+    try {
+      f = new File(args[1]);
+    } catch (Exception e) {
+      throw new NonvalidArgumentException("error, file path is not valid");
+    }
+
+    try {
+      fos = new FileOutputStream(f);
+    } catch (FileNotFoundException e) {
+      throw new NonvalidArgumentException("error, something wrong with fos in SaveJShell");
+    }
+
+    try {
+      oos = new ObjectOutputStream(fos);
+    } catch (IOException e) {
+      throw new NonvalidArgumentException("IOException, something wrong with oos in SaveJShell");
+    }
+
+    try {
+      oos.writeObject(fm);
+    } catch (IOException e) {
+      e.printStackTrace();
+
+    }
+
+    return output;
+  }
+
+}

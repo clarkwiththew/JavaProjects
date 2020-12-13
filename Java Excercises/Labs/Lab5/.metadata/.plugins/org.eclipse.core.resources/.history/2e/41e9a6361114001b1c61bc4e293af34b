@@ -1,0 +1,10 @@
+Class name: command
+
+Subclasses: exit, cd, mkdir, ls, pwd, echoAppend, echoOverwrite,
+cat, history, popd, pushd, man
+
+Responsibilities:
+*take care of interaction with shell and user input
+
+Collaborators:
+*shell

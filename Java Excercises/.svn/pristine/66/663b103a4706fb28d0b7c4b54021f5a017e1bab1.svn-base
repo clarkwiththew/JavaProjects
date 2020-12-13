@@ -1,0 +1,9 @@
+Class name: VGA
+
+Parent Class: 
+
+Subclasses:
+
+Responsibilities: Allow user to connect and display to a screen, projector etc. 
+
+Collaborators: Screen

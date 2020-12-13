@@ -1,0 +1,52 @@
+package commands;
+
+import data.*;
+import errorHandler.*;
+
+/**
+ * The Class ls, lists contents in a directory or file.
+ */
+public class Ls implements Command {
+
+  /**
+   * Run.
+   *
+   * @param fm the fileManager
+   * @param args The path of the file or directory
+   * @return Contents of the directory or the contents of the file or a suitable error message
+   */
+  public String run(JFileManager fm, String[] args) throws NonvalidArgumentException {
+
+    String output = "";
+    Directory currentDir = fm.getCurrent();
+    Directory newDir;
+
+    // no path is given, ls current path
+    if (args.length == 1) {
+      output += currentDir.getDirKey();
+      output += currentDir.getFileKey();
+    }
+    else {
+      try {
+        for (int i = 1; i < args.length; i++) {
+            if (fm.checkPathToFile(args[i], currentDir)) {
+                output+= args[i] +"\n";
+                continue;
+              }
+          
+          else {
+        	  newDir = fm.pathToCurrent(currentDir, args[i]);  
+          output += args[i] + ":" + "\n";
+          output += newDir.getFileKey();
+          output += newDir.getDirKey();
+          }
+        }
+        }
+       catch (Exception e) {
+        throw new NonvalidArgumentException("you have a nonvalid input, could not find the path");
+      }
+    }
+    return output + "\n";
+  }
+
+}

@@ -1,0 +1,86 @@
+// **********************************************************
+// Assignment2:
+// Student1:
+// UTORID user_name: wangj930
+// UT Student #: 1006390031
+// Author: Junheng Wang
+//
+// Student2:
+// UTORID user_name: anadaeth
+// UT Student #: 1003171907
+// Author: Ethan Ananda
+//
+// Student3:
+// UTORID user_name: shinhy22
+// UT Student #: 997743615
+// Author: Hyun Woo (Eddie) Shin
+//
+// Student4:
+// UTORID user_name: chouivan
+// UT Student #: 1003599732
+// Author: Ivanhoe Chou
+//
+//
+// Honor Code: I pledge that this program represents my own
+// program code and that I have coded on my own. I received
+// help from no one in designing and debugging my program.
+// I have also read the plagiarism section in the course info
+// sheet of CSC B07 and understand the consequences.
+// *********************************************************
+package commands;
+
+import data.*;
+import errorHandler.NonvalidArgumentException;
+import java.io.*;
+import java.io.File;
+/**
+ * @author Junheng Wang, Hyun Woo (Eddie) Shin, Ivanhoe Chou, Ethan Anada
+ */
+public class SaveJShell implements Command {
+
+  /**
+   * Run.
+   *
+   * @param fm the fm
+   * @param args the args
+   * @return the string
+   * @throws NonvalidArgumentException the nonvalid argument exception
+   */
+  @SuppressWarnings("resource")
+  @Override
+  public String run(FileManager fm, String[] args) throws NonvalidArgumentException {
+    String output = "";
+    if (args.length > 2)
+      throw new NonvalidArgumentException("error, invalid argument for saveJShell");
+    FileOutputStream fos;
+    ObjectOutputStream oos;
+    File f;
+    try {
+      f = new File(args[1]);
+    } catch (Exception e) {
+      throw new NonvalidArgumentException("error, file path is not valid");
+    }
+
+    try {
+      fos = new FileOutputStream(f);
+    } catch (FileNotFoundException e) {
+      throw new NonvalidArgumentException("error, something wrong with fos in SaveJShell");
+    }
+
+    try {
+      oos = new ObjectOutputStream(fos);
+    } catch (IOException e) {
+      throw new NonvalidArgumentException("IOException, something wrong with oos in SaveJShell");
+    }
+
+    try {
+      oos.writeObject(fm);
+    } catch (IOException e) {
+      e.printStackTrace();
+
+    }
+
+    return output;
+  }
+
+}

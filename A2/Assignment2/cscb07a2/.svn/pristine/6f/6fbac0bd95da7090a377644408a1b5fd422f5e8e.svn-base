@@ -1,0 +1,32 @@
+package test;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import commands.Pwd;
+import commands.Rm;
+import data.FileManager;
+import errorHandler.NonvalidArgumentException;
+
+public class RmTest {
+	
+	Rm rm = new Rm();
+	private MockFileManager MockFM;
+	
+	/**
+	   * RM command set up
+	   */
+	
+	@Before
+	public void setUp() {
+		MockFM = new MockFileManager();
+	}
+
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}
