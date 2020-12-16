@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.io.*;
 import data.*;
 /**
- * @author Junheng Wang, Hyun Woo (Eddie) Shin, Ivanhoe Chou, Ethan Anada
  */
 /**
  * The Class directory.
