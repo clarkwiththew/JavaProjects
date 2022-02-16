@@ -8,11 +8,7 @@ import errorHandler.Validator;
 import java.util.Map;
 import data.*;
 
-/**
- * The Class Tree.
- *
- * @author Junheng Wang, Hyun Woo (Eddie) Shin, Ivanhoe Chou, Ethan Anada
- */
+
 public class Tree implements Command {
 
   /**
