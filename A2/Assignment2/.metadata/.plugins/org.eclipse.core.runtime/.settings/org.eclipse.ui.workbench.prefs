@@ -1,6 +1,0 @@
-//org.eclipse.ui.commands/state/org.eclipse.ui.navigator.resources.nested.changeProjectPresentation/org.eclipse.ui.commands.radioState=false
-PLUGINS_NOT_ACTIVATED_ON_STARTUP=;org.eclipse.m2e.discovery;
-SAVE_AUTOMATICALLY=true
-SAVE_AUTOMATICALLY_INTERVAL=1
-WORKBENCH_SAVE_INTERVAL=1
-eclipse.preferences.version=1
