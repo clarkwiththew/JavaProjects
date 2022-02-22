@@ -13,9 +13,6 @@ import errorHandler.NonvalidArgumentException;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * @author Junheng Wang, Hyun Woo (Eddie) Shin, Ivanhoe Chou, Ethan Anada
- */
-/**
  * Our JShell, where our user is able enter commands and receive the appropriate output, much like a
  * real shell would
  */
