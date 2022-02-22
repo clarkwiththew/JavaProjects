@@ -1,9 +1,0 @@
-package commands;
-
-import driver.nonvalidArgumentException;
-
-public interface command {
-    
-    public String run(driver.fileManager fm, String[] args);
-    
-}

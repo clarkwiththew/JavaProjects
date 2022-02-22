@@ -1,9 +1,0 @@
-Class name: echoAppend
-Parent class: command
-
-Responsibilities: 
-*Adds input string given by user to file
-
-Collaborators: 
-*file
-*path

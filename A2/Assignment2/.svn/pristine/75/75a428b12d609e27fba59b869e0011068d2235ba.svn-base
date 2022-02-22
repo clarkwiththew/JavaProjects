@@ -1,8 +1,0 @@
-package driver;
-
-@SuppressWarnings("serial")
-public class nonvalidArgumentException extends Exception{
-  public nonvalidArgumentException(String message) {
-    super(message);
-  }
-}

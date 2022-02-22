@@ -1,9 +1,0 @@
-Class name: cd
-Parent class: command
-
-Responsibilities:
-*change current directory to one given by user
-
-Collaborators:
-*path
-*directory

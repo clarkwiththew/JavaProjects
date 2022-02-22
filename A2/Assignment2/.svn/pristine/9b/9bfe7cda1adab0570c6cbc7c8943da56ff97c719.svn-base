@@ -1,9 +1,0 @@
-Class name: popd
-Parent Class: command
-
-Responsibilities: 
-* Pop the first directory from the directory stack and make that the current directory 
-
-
-
-
