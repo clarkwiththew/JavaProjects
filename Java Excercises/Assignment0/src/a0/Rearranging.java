@@ -1,21 +1,6 @@
 package a0;
 
 // **********************************************************
-// Assignment0:
-// UTOR user_name: wangj930
-// UT Student #: 1006390031
-// Author: Junheng Wang
-//
-//
-// Honor Code: I pledge that this program represents my own
-// program code and that I have coded on my own. I received
-// help from no one in designing and debugging my program.
-// I have also read the plagarism section in the course info
-// sheet of CSC B07 and understand the consequences. Note that
-// we will be running all your quizzes and assignments for plagarism
-// check starting sometime in November of 2020. If you do not complete this honor
-// code, we will give you no credit and award you 0% for this component.
-
 
 /*
  * 
