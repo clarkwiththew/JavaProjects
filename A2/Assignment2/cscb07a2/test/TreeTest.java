@@ -13,9 +13,7 @@ import data.FileManager;
 import errorHandler.NonvalidArgumentException;
 import org.junit.Before;
 
-/**
- * @author Junheng Wang, Hyun Woo (Eddie) Shin, Ivanhoe Chou, Ethan Anada
- */
+
 
 public class TreeTest {
 
